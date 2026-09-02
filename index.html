@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ========== GAYA ========== */
+        /* ===== GAYA ===== (tidak berubah) */
         * {
             margin: 0;
             padding: 0;
@@ -1296,7 +1296,7 @@
         // =============================================================
         let allActivities = [];
         let monthlyTasks = [];
-        let monthlyTaskCompletions = {};
+        let monthlyTaskCompletions = {}; // { 'taskId_YYYY-MM': 'completedDate' }
         let currentMonth = new Date();
         let currentDay = new Date();
         let currentPage = 'dashboard';
@@ -1381,10 +1381,24 @@
                 if (json.status === 'success') {
                     allActivities = json.data.activities || [];
                     monthlyTasks = json.data.tasks || [];
-                    monthlyTaskCompletions = json.data.completions || {};
+                    // Convert completions array to object
+                    const comps = json.data.completions || {};
+                    if (Array.isArray(comps)) {
+                        // Jika dari backend berbentuk array, ubah ke object
+                        const obj = {};
+                        comps.forEach(item => {
+                            if (item.taskId && item.monthKey) {
+                                obj[item.taskId + '_' + item.monthKey] = item.completedDate || '';
+                            }
+                        });
+                        monthlyTaskCompletions = obj;
+                    } else {
+                        monthlyTaskCompletions = comps;
+                    }
+                    console.log('✅ Data loaded:', allActivities.length, 'activities,', monthlyTasks.length, 'tasks');
+                    console.log('📋 Completions:', monthlyTaskCompletions);
                     renderAll();
                     updateBadges();
-                    console.log('✅ Data loaded:', allActivities.length, 'activities');
                 } else {
                     showToast('Gagal memuat data: ' + (json.message || ''));
                 }
@@ -1524,7 +1538,7 @@
         }
 
         // =============================================================
-        //  MONTHLY TASKS
+        //  MONTHLY TASKS — PERBAIKAN UTAMA
         // =============================================================
         function getPendingTasksForMonth(date) {
             const month = date.getMonth();
@@ -1532,6 +1546,7 @@
             const monthKey = `${year}-${String(month+1).padStart(2,'0')}`;
             return monthlyTasks.filter(task => {
                 const compKey = task.id + '_' + monthKey;
+                // Cek apakah ada di completions
                 if (monthlyTaskCompletions[compKey]) return false;
                 const daysInThisMonth = daysInMonth(date);
                 return task.dayOfMonth <= daysInThisMonth;
@@ -1555,6 +1570,8 @@
             const list = $('#monthlyTaskList');
             const pending = getPendingTasksForMonth(now);
             const completed = getCompletedTasksForMonth(now);
+
+            console.log('📋 Tugas Pending:', pending.length, 'Selesai:', completed.length);
 
             if (pending.length === 0 && completed.length === 0) {
                 list.innerHTML = `
@@ -1684,6 +1701,7 @@
                     })
                 });
                 showToast('✅ Tugas selesai! Notifikasi terkirim.');
+                // Reload data setelah 0.5 detik
                 setTimeout(() => loadFromBackend(), 500);
             } catch (e) {
                 showToast('Error: ' + e.message);
@@ -1711,22 +1729,19 @@
         }
 
         // =============================================================
-        //  DAILY — PERBAIKAN UTAMA DI SINI
+        //  DAILY
         // =============================================================
         function renderDaily() {
             const day = currentDay;
             $('#dayLabel').textContent = formatDateReadable(day);
 
             const list = $('#dailyList');
-            // Buat tanggal target (awal hari)
             const target = new Date(day.getFullYear(), day.getMonth(), day.getDate());
 
-            // Filter aktivitas berdasarkan tanggal (bandingkan tahun, bulan, tanggal)
             const items = allActivities
                 .filter(a => {
                     if (!a.date) return false;
                     const d = new Date(a.date);
-                    // Jika date tidak valid, lewati
                     if (isNaN(d.getTime())) return false;
                     return d.getFullYear() === target.getFullYear() &&
                            d.getMonth() === target.getMonth() &&
@@ -1734,8 +1749,7 @@
                 })
                 .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
-            console.log(`📅 Tanggal target: ${target.toISOString().split('T')[0]}`);
-            console.log(`📋 Aktivitas yang cocok: ${items.length} item`);
+            console.log(`📅 Daily target: ${target.toISOString().split('T')[0]}, items: ${items.length}`);
 
             if (items.length === 0) {
                 list.innerHTML = `
@@ -2030,8 +2044,6 @@
         });
 
         console.log('📋 Logbook Administrasi + Tugas Bulanan siap!');
-        console.log(`📊 ${allActivities.length} aktivitas, ${monthlyTasks.length} tugas bulanan.`);
     </script>
-
 </body>
 </html>
