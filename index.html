@@ -348,9 +348,11 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
     .daily-card .card-left .meta .cat { background: #f1f5f9; padding: 2px 12px; border-radius: 20px; color: #475569; }
-    .daily-card .card-actions { display: flex; gap: 8px; }
+    .daily-card .card-left .meta .status-done { color: #10b981; font-weight: 600; }
+    .daily-card .card-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .daily-card .card-actions button {
       background: none;
       border: none;
@@ -363,6 +365,23 @@
     }
     .daily-card .card-actions button:hover { background: #f1f5f9; color: #ef4444; }
     .daily-card .card-actions button.edit:hover { color: #60a5fa; }
+    .daily-card .card-actions .btn-complete-daily {
+      background: #10b981;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .daily-card .card-actions .btn-complete-daily:hover { background: #059669; }
+    .daily-card .card-actions .btn-complete-daily:disabled {
+      background: #e2e8f0;
+      color: #475569;
+      cursor: default;
+    }
 
     .timeline-container {
       position: relative;
@@ -402,7 +421,7 @@
     .timeline-item .time { font-size: 12px; font-weight: 600; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.3px; }
     .timeline-item .title { font-weight: 600; font-size: 15px; color: #0f172a; margin-top: 4px; }
     .timeline-item .desc { font-size: 14px; color: #64748b; margin-top: 4px; }
-    .timeline-item .meta { font-size: 12px; color: #94a3b8; margin-top: 6px; display: flex; align-items: center; gap: 12px; }
+    .timeline-item .meta { font-size: 12px; color: #94a3b8; margin-top: 6px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
     .modal-overlay {
       display: none;
@@ -559,7 +578,7 @@
     </nav>
     <div class="sidebar-footer">
       <i class="fas fa-database"></i>
-      <span>GS Database • v2.0</span>
+      <span>GS Database • v3.0</span>
     </div>
   </aside>
 
@@ -1074,7 +1093,6 @@
       } catch (e) { showToast('Error: ' + e.message); }
     }
 
-    // === PERBAIKAN UTAMA: completeTask dengan reload 1,5 detik ===
     async function completeTask(taskId) {
       try {
         await fetch(SCRIPT_URL, {
@@ -1141,6 +1159,9 @@
       list.innerHTML = items.map(a => {
         const color = colorMap[a.category] || '#60a5fa';
         const created = a.createdAt ? new Date(a.createdAt) : new Date();
+        const isCompleted = a.completedAt && a.completedAt !== '';
+        const completedDate = isCompleted ? new Date(a.completedAt) : null;
+
         return `
           <div class="daily-card" style="border-left-color:${color};">
             <div class="card-left">
@@ -1149,15 +1170,45 @@
               <div class="meta">
                 <span class="cat">${escHtml(a.category || 'Umum')}</span>
                 <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
+                ${isCompleted ? `<span class="status-done"><i class="fas fa-check-circle"></i> Selesai ${formatDateReadable(completedDate)}</span>` : ''}
               </div>
             </div>
             <div class="card-actions">
+              ${!isCompleted ? `
+                <button class="btn-complete-daily" onclick="completeActivity('${a.id}')">
+                  <i class="fas fa-check"></i> Tandai Selesai
+                </button>
+              ` : `
+                <button class="btn-complete-daily" disabled>
+                  <i class="fas fa-check-circle"></i> Selesai
+                </button>
+              `}
               <button class="edit" onclick="editActivity('${a.id}')" title="Edit"><i class="fas fa-pen"></i></button>
               <button onclick="deleteActivity('${a.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
             </div>
           </div>
         `;
       }).join('');
+    }
+
+    // ===== FUNGSI BARU: Tandai Selesai Aktivitas Harian =====
+    async function completeActivity(activityId) {
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'completeActivity',
+            id: activityId,
+            completedDate: new Date().toISOString().split('T')[0]
+          })
+        });
+        showToast('✅ Aktivitas selesai!');
+        setTimeout(() => loadFromBackend(), 1500);
+      } catch (e) {
+        showToast('Error: ' + e.message);
+      }
     }
 
     function changeDay(delta) { currentDay.setDate(currentDay.getDate() + delta); renderDaily(); }
@@ -1182,6 +1233,7 @@
         const d = new Date(a.date);
         const color = colorMap[a.category] || '#60a5fa';
         const created = a.createdAt ? new Date(a.createdAt) : new Date();
+        const isCompleted = a.completedAt && a.completedAt !== '';
         return `
           <div class="timeline-item" style="border-left:4px solid ${color};">
             <div class="time"><i class="far fa-calendar-alt" style="margin-right:6px;"></i> ${formatDateReadable(d)} • ${formatTime(created)}</div>
@@ -1190,6 +1242,7 @@
             <div class="meta">
               <span>🏷️ ${escHtml(a.category || 'Umum')}</span>
               <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
+              ${isCompleted ? `<span style="color:#10b981;"><i class="fas fa-check-circle"></i> Selesai</span>` : ''}
             </div>
           </div>
         `;
