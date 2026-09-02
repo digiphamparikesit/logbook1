@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* (sama seperti sebelumnya, tidak diubah) */
+        /* ========== GAYA ========== */
         * {
             margin: 0;
             padding: 0;
@@ -1206,7 +1206,7 @@
     <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
         <div class="modal">
             <h3 id="modalTitle"><i class="fas fa-plus-circle" style="color:#60a5fa;margin-right:8px;"></i> Tambah Aktivitas Harian</h3>
-            <p class="sub" id="modalSub">Isi data aktivitas untuk tanggal tertentu</p>
+            <p class="sub" id="modalSub">Aktivitas akan muncul di halaman Harian, Kalender, dan Dashboard</p>
             <form id="activityForm" onsubmit="saveActivity(event)">
                 <input type="hidden" id="editId" value="">
                 <div class="form-group">
@@ -1333,6 +1333,7 @@
         }
 
         function formatTime(d) {
+            if (!d || isNaN(d.getTime())) return '--:--';
             return d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         }
 
@@ -1383,11 +1384,13 @@
                     monthlyTaskCompletions = json.data.completions || {};
                     renderAll();
                     updateBadges();
+                    console.log('✅ Data loaded:', allActivities.length, 'activities');
                 } else {
                     showToast('Gagal memuat data: ' + (json.message || ''));
                 }
             } catch (e) {
                 showToast('Error: ' + e.message);
+                console.error(e);
             }
         }
 
@@ -1708,18 +1711,31 @@
         }
 
         // =============================================================
-        //  DAILY
+        //  DAILY — PERBAIKAN UTAMA DI SINI
         // =============================================================
         function renderDaily() {
             const day = currentDay;
             $('#dayLabel').textContent = formatDateReadable(day);
 
             const list = $('#dailyList');
-            const dayStr = formatDate(day);
+            // Buat tanggal target (awal hari)
+            const target = new Date(day.getFullYear(), day.getMonth(), day.getDate());
 
+            // Filter aktivitas berdasarkan tanggal (bandingkan tahun, bulan, tanggal)
             const items = allActivities
-                .filter(a => a.date === dayStr)
+                .filter(a => {
+                    if (!a.date) return false;
+                    const d = new Date(a.date);
+                    // Jika date tidak valid, lewati
+                    if (isNaN(d.getTime())) return false;
+                    return d.getFullYear() === target.getFullYear() &&
+                           d.getMonth() === target.getMonth() &&
+                           d.getDate() === target.getDate();
+                })
                 .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+            console.log(`📅 Tanggal target: ${target.toISOString().split('T')[0]}`);
+            console.log(`📋 Aktivitas yang cocok: ${items.length} item`);
 
             if (items.length === 0) {
                 list.innerHTML = `
@@ -1742,6 +1758,7 @@
 
             list.innerHTML = items.map(a => {
                 const color = colorMap[a.category] || '#60a5fa';
+                const created = a.createdAt ? new Date(a.createdAt) : new Date();
                 return `
               <div class="daily-card" style="border-left-color:${color};">
                 <div class="card-left">
@@ -1749,7 +1766,7 @@
                   <div class="desc">${escHtml(a.description || '—')}</div>
                   <div class="meta">
                     <span class="cat">${escHtml(a.category || 'Umum')}</span>
-                    <span><i class="far fa-clock"></i> ${formatTime(new Date(a.createdAt || Date.now()))}</span>
+                    <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
                   </div>
                 </div>
                 <div class="card-actions">
@@ -1799,14 +1816,15 @@
             container.innerHTML = sorted.map(a => {
                 const d = new Date(a.date);
                 const color = colorMap[a.category] || '#60a5fa';
+                const created = a.createdAt ? new Date(a.createdAt) : new Date();
                 return `
               <div class="timeline-item" style="border-left:4px solid ${color};">
-                <div class="time"><i class="far fa-calendar-alt" style="margin-right:6px;"></i> ${formatDateReadable(d)} • ${formatTime(new Date(a.createdAt || Date.now()))}</div>
+                <div class="time"><i class="far fa-calendar-alt" style="margin-right:6px;"></i> ${formatDateReadable(d)} • ${formatTime(created)}</div>
                 <div class="title">${escHtml(a.title)}</div>
                 <div class="desc">${escHtml(a.description || '—')}</div>
                 <div class="meta">
                   <span>🏷️ ${escHtml(a.category || 'Umum')}</span>
-                  <span><i class="far fa-clock"></i> ${formatTime(new Date(a.createdAt || Date.now()))}</span>
+                  <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
                 </div>
               </div>
             `;
