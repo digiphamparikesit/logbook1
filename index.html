@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
+    /* ===== GAYA (sama seperti sebelumnya, tidak diubah) ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #f4f7fc; display: flex; height: 100vh; overflow: hidden; color: #1e293b; }
     ::-webkit-scrollbar { width: 6px; }
@@ -337,6 +338,7 @@
       flex-wrap: wrap;
       gap: 12px;
     }
+    .daily-card.overdue { border-left-color: #f59e0b; background: #fffbeb; }
     .daily-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
     .daily-card .card-left { flex: 1; }
     .daily-card .card-left .title { font-weight: 600; font-size: 15px; color: #0f172a; }
@@ -352,6 +354,7 @@
     }
     .daily-card .card-left .meta .cat { background: #f1f5f9; padding: 2px 12px; border-radius: 20px; color: #475569; }
     .daily-card .card-left .meta .status-done { color: #10b981; font-weight: 600; }
+    .daily-card .card-left .meta .status-overdue { color: #f59e0b; font-weight: 600; }
     .daily-card .card-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .daily-card .card-actions button {
       background: none;
@@ -638,7 +641,7 @@
           </div>
         </div>
 
-        <!-- ===== REKAPAN TUGAS BULANAN DI DASHBOARD ===== -->
+        <!-- Rekapan Tugas Bulanan -->
         <div class="recent-activities" style="margin-top: 24px;">
           <h3><i class="fas fa-tasks" style="color:#f59e0b;margin-right:8px;"></i> Rekapan Tugas Bulanan – <span id="dashboardTaskMonth"></span></h3>
           <div id="dashboardTaskSummary">
@@ -924,11 +927,9 @@
         }).join('');
       }
 
-      // === REKAPAN TUGAS BULANAN ===
       renderDashboardTaskSummary();
     }
 
-    // === REKAPAN TUGAS BULANAN DI DASHBOARD ===
     function renderDashboardTaskSummary() {
       const now = new Date();
       const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
@@ -1172,50 +1173,73 @@
     }
     function closeTaskModal() { $('#modalTaskOverlay').classList.remove('open'); }
 
-    // ===== HARIAN =====
+    // ===== HARIAN (DENGAN FITUR TERTUNDA) =====
     function renderDaily() {
       const day = currentDay;
       $('#dayLabel').textContent = formatDateReadable(day);
       const list = $('#dailyList');
       const target = new Date(day.getFullYear(), day.getMonth(), day.getDate());
-      const items = allActivities
-        .filter(a => {
-          if (!a.date) return false;
-          const d = new Date(a.date);
-          if (isNaN(d.getTime())) return false;
-          return d.getFullYear() === target.getFullYear() &&
-                 d.getMonth() === target.getMonth() &&
-                 d.getDate() === target.getDate();
-        })
-        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
-      console.log(`📅 Tanggal target: ${target.toISOString().split('T')[0]}, items: ${items.length}`);
+      // Ambil semua aktivitas yang belum selesai (completedAt kosong)
+      const unfinished = allActivities.filter(a => !a.completedAt || a.completedAt === '');
+
+      // Aktivitas untuk tanggal target
+      const todayItems = unfinished.filter(a => {
+        if (!a.date) return false;
+        const d = new Date(a.date);
+        return !isNaN(d) && isSameDay(d, target);
+      });
+
+      // Aktivitas dari tanggal sebelumnya (overdue)
+      const overdueItems = unfinished.filter(a => {
+        if (!a.date) return false;
+        const d = new Date(a.date);
+        return !isNaN(d) && d < target && !isSameDay(d, target);
+      });
+
+      // Aktivitas yang sudah selesai untuk tanggal target (opsional, tidak ditampilkan karena sudah selesai)
+      // Tapi kita bisa tampilkan sebagai riwayat? Lebih baik hanya unfinished.
+
+      // Gabungkan: overdue dulu, lalu today
+      const items = [...overdueItems, ...todayItems];
+
+      console.log(`📅 Tanggal target: ${target.toISOString().split('T')[0]}, overdue: ${overdueItems.length}, today: ${todayItems.length}`);
+
       if (items.length === 0) {
         list.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-calendar-day"></i>
-            <p style="font-size:16px;font-weight:500;color:#64748b;">Tidak ada aktivitas harian pada tanggal ini</p>
-            <p style="font-size:13px;color:#94a3b8;">Klik "Tambah" di header untuk menambahkan aktivitas.</p>
+            <p style="font-size:16px;font-weight:500;color:#64748b;">Tidak ada aktivitas tertunda atau untuk tanggal ini</p>
+            <p style="font-size:13px;color:#94a3b8;">Klik "Tambah" untuk menambahkan aktivitas.</p>
           </div>
         `;
         return;
       }
+
       const colorMap = { 'Umum':'#60a5fa','Rapat':'#f59e0b','Tugas':'#10b981','Kunjungan':'#ec4899','Lainnya':'#8b5cf6' };
+
       list.innerHTML = items.map(a => {
         const color = colorMap[a.category] || '#60a5fa';
         const created = a.createdAt ? new Date(a.createdAt) : new Date();
+        const isOverdue = overdueItems.includes(a);
         const isCompleted = a.completedAt && a.completedAt !== '';
-        const completedDate = isCompleted ? new Date(a.completedAt) : null;
+        const activityDate = new Date(a.date);
+        const dateLabel = isOverdue ? `⏳ Tertunda (seharusnya ${formatDateReadable(activityDate)})` : '';
+
+        // Tentukan kelas tambahan untuk overdue
+        let cardClass = 'daily-card';
+        if (isOverdue) cardClass += ' overdue';
 
         return `
-          <div class="daily-card" style="border-left-color:${color};">
+          <div class="${cardClass}" style="${isOverdue ? 'border-left-color: #f59e0b;' : `border-left-color:${color};`}">
             <div class="card-left">
               <div class="title">${escHtml(a.title)}</div>
               <div class="desc">${escHtml(a.description || '—')}</div>
               <div class="meta">
                 <span class="cat">${escHtml(a.category || 'Umum')}</span>
                 <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
-                ${isCompleted ? `<span class="status-done"><i class="fas fa-check-circle"></i> Selesai ${formatDateReadable(completedDate)}</span>` : ''}
+                ${isOverdue ? `<span class="status-overdue"><i class="fas fa-exclamation-triangle"></i> ${dateLabel}</span>` : ''}
+                ${isCompleted ? `<span class="status-done"><i class="fas fa-check-circle"></i> Selesai ${formatDateReadable(new Date(a.completedAt))}</span>` : ''}
               </div>
             </div>
             <div class="card-actions">
@@ -1279,6 +1303,7 @@
         const color = colorMap[a.category] || '#60a5fa';
         const created = a.createdAt ? new Date(a.createdAt) : new Date();
         const isCompleted = a.completedAt && a.completedAt !== '';
+        const isOverdue = !isCompleted && d < new Date();
         return `
           <div class="timeline-item" style="border-left:4px solid ${color};">
             <div class="time"><i class="far fa-calendar-alt" style="margin-right:6px;"></i> ${formatDateReadable(d)} • ${formatTime(created)}</div>
@@ -1288,6 +1313,7 @@
               <span>🏷️ ${escHtml(a.category || 'Umum')}</span>
               <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
               ${isCompleted ? `<span style="color:#10b981;"><i class="fas fa-check-circle"></i> Selesai</span>` : ''}
+              ${isOverdue ? `<span style="color:#f59e0b;"><i class="fas fa-exclamation-triangle"></i> Tertunda</span>` : ''}
             </div>
           </div>
         `;
