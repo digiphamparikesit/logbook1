@@ -245,7 +245,6 @@
 
     <div class="content-area" id="contentArea">
 
-      <!-- DASHBOARD -->
       <section class="page-section active" id="page-dashboard">
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-icon"><i class="fas fa-list-ul"></i></div><div class="stat-number" id="totalActivities">0</div><div class="stat-label">Total Aktivitas</div></div>
@@ -263,7 +262,6 @@
         </div>
       </section>
 
-      <!-- KALENDER -->
       <section class="page-section" id="page-monthly">
         <div class="monthly-controls">
           <div class="month-nav">
@@ -276,7 +274,6 @@
         <div class="month-grid" id="monthGrid"></div>
       </section>
 
-      <!-- TUGAS BULANAN -->
       <section class="page-section" id="page-monthlytasks">
         <div class="monthly-tasks-section">
           <div class="task-header">
@@ -287,7 +284,6 @@
         </div>
       </section>
 
-      <!-- HARIAN -->
       <section class="page-section" id="page-daily">
         <div class="daily-controls">
           <div class="date-nav">
@@ -300,7 +296,6 @@
         <div class="daily-list" id="dailyList"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
       </section>
 
-      <!-- TIMELINE -->
       <section class="page-section" id="page-timeline">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
           <h3 style="font-size:18px;font-weight:600;color:#0f172a;"><i class="fas fa-stream" style="color:#60a5fa;margin-right:8px;"></i> Semua Aktivitas</h3>
@@ -309,7 +304,6 @@
         <div class="timeline-container" id="timelineContainer"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
       </section>
 
-      <!-- PENGATURAN -->
       <section class="page-section" id="page-pengaturan">
         <div class="settings-card">
           <h3><i class="fas fa-bell" style="color:#10b981;"></i> Notifikasi WhatsApp</h3>
@@ -356,7 +350,6 @@
     </div>
   </main>
 
-  <!-- MODAL AKTIVITAS -->
   <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
     <div class="modal">
       <h3 id="modalTitle"><i class="fas fa-plus-circle" style="color:#60a5fa;margin-right:8px;"></i> Tambah Aktivitas</h3>
@@ -383,7 +376,6 @@
     </div>
   </div>
 
-  <!-- MODAL TUGAS BULANAN -->
   <div class="modal-overlay" id="modalTaskOverlay" onclick="if(event.target===this) closeTaskModal()">
     <div class="modal">
       <h3><i class="fas fa-plus-circle" style="color:#f59e0b;margin-right:8px;"></i> Tambah Tugas Bulanan</h3>
@@ -410,7 +402,6 @@
     </div>
   </div>
 
-  <!-- MODAL PENGINGAT -->
   <div class="modal-overlay" id="modalPengingatOverlay" onclick="if(event.target===this) closePengingatModal()">
     <div class="modal">
       <h3 id="pengingatModalTitle"><i class="fas fa-plus-circle" style="color:#f59e0b;margin-right:8px;"></i> Tambah Kegiatan Pengingat</h3>
@@ -419,7 +410,7 @@
         <input type="hidden" id="pengingatId">
         <div class="form-group"><label>Judul Kegiatan</label><input type="text" id="pengingatTitle" placeholder="Contoh: Rapat Koordinasi" required /></div>
         <div class="form-group"><label>Deskripsi</label><textarea id="pengingatDesc" placeholder="Detail kegiatan..."></textarea></div>
-        <div class="form-group"><label>Tanggal & Jam Kegiatan</label><input type="datetime-local" id="pengingatDatetime" required /></div>
+        <div class="form-group"><label>Tanggal & Jam Kegiatan (WIB)</label><input type="datetime-local" id="pengingatDatetime" required /></div>
         <div class="form-group"><label>Nomor WA Khusus (opsional)</label><input type="text" id="pengingatWa" placeholder="Kosongkan = pakai nomor di Pengaturan" /></div>
         <div class="form-group"><label>Status</label>
           <select id="pengingatStatus">
@@ -941,6 +932,7 @@
       $('#pengingatTitle').value = p.title;
       $('#pengingatDesc').value = p.description || '';
       if (p.datetime) {
+        // Konversi dari UTC (Supabase) ke lokal (WIB) untuk datetime-local
         const dt = new Date(p.datetime);
         const pad = n => String(n).padStart(2, '0');
         $('#pengingatDatetime').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
@@ -952,17 +944,24 @@
 
     function closePengingatModal() { $('#modalPengingatOverlay').classList.remove('open'); }
 
+    // ====== PERBAIKAN TIMEZONE DI SINI ======
     async function savePengingat(e) {
       e.preventDefault();
       const id = $('#pengingatId').value;
+      const dtLocal = $('#pengingatDatetime').value; // contoh: "2026-09-15T16:45"
+      if (!dtLocal) { showToast('Tanggal & jam wajib diisi.', 'error'); return; }
+
+      // Konversi dari local time ke UTC ISO string (Supabase simpan dalam UTC)
+      const dtUtc = new Date(dtLocal).toISOString();
+
       const data = {
         title: $('#pengingatTitle').value.trim(),
         description: $('#pengingatDesc').value.trim(),
-        datetime: $('#pengingatDatetime').value,
+        datetime: dtUtc,
         wa_number: $('#pengingatWa').value.trim() || null,
         status: $('#pengingatStatus').value
       };
-      if (!data.title || !data.datetime) { showToast('Judul dan waktu wajib diisi.', 'error'); return; }
+      if (!data.title) { showToast('Judul wajib diisi.', 'error'); return; }
 
       if (id) {
         const { error } = await db.from('reminders').update(data).eq('id', id);
