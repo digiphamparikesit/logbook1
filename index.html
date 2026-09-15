@@ -6,6 +6,7 @@
   <title>📋 Logbook Administrasi + Pengingat</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #f4f7fc; display: flex; height: 100vh; overflow: hidden; color: #1e293b; }
@@ -31,7 +32,7 @@
     .sidebar-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 10px; }
     .sidebar-footer i { color: #475569; }
 
-    .main-content { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .main-content { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; background: #f4f7fc; }
     .main-header { background: #fff; padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e9edf2; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
     .main-header .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; color: #0f172a; }
     .main-header .page-title i { color: #60a5fa; margin-right: 10px; }
@@ -39,12 +40,7 @@
     .main-header .header-actions .date-display { font-size: 14px; color: #64748b; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; font-weight: 500; }
     .btn-primary { background: #0f172a; color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s ease; }
     .btn-primary:hover { background: #1e293b; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15,23,42,0.2); }
-    .btn-success { background: #10b981; }
-    .btn-success:hover { background: #059669; }
-    .btn-warning { background: #f59e0b; }
-    .btn-warning:hover { background: #d97706; }
-    .btn-danger { background: #ef4444; }
-    .btn-danger:hover { background: #dc2626; }
+    .btn-primary i { font-size: 14px; }
 
     .content-area { flex: 1; overflow-y: auto; padding: 28px 32px 40px; }
     .page-section { display: none; animation: fadeIn 0.35s ease; }
@@ -70,13 +66,13 @@
 
     .monthly-controls, .daily-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
     .monthly-controls .month-nav, .daily-controls .date-nav { display: flex; align-items: center; gap: 12px; background: #fff; padding: 4px 12px 4px 16px; border-radius: 40px; border: 1px solid #e9edf2; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-    .monthly-controls .month-nav button, .daily-controls .date-nav button { background: none; border: none; font-size: 18px; color: #64748b; cursor: pointer; padding: 6px 8px; border-radius: 30px; }
+    .monthly-controls .month-nav button, .daily-controls .date-nav button { background: none; border: none; font-size: 18px; color: #64748b; cursor: pointer; padding: 6px 8px; border-radius: 30px; transition: all 0.2s; }
     .monthly-controls .month-nav button:hover, .daily-controls .date-nav button:hover { background: #f1f5f9; color: #0f172a; }
     .monthly-controls .month-nav .month-label, .daily-controls .date-nav .date-label { font-weight: 600; font-size: 16px; min-width: 140px; text-align: center; color: #0f172a; }
 
     .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; background: #fff; border-radius: 16px; padding: 16px; border: 1px solid #e9edf2; }
-    .month-grid .day-header { font-weight: 600; font-size: 12px; text-transform: uppercase; color: #94a3b8; text-align: center; padding: 8px 0; }
-    .month-grid .day-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; background: #fafcfd; font-size: 14px; font-weight: 500; color: #0f172a; border: 1px solid transparent; }
+    .month-grid .day-header { font-weight: 600; font-size: 12px; text-transform: uppercase; color: #94a3b8; text-align: center; padding: 8px 0; letter-spacing: 0.5px; }
+    .month-grid .day-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; background: #fafcfd; transition: all 0.15s ease; font-size: 14px; font-weight: 500; color: #0f172a; border: 1px solid transparent; }
     .month-grid .day-cell.empty { background: transparent; border: none; }
     .month-grid .day-cell.today { border-color: #60a5fa; background: #eff6ff; }
     .month-grid .day-cell.has-activity { background: #dbeafe; color: #1e40af; font-weight: 600; }
@@ -130,35 +126,22 @@
     .timeline-item .desc { font-size: 14px; color: #64748b; margin-top: 4px; }
     .timeline-item .meta { font-size: 12px; color: #94a3b8; margin-top: 6px; display: flex; gap: 12px; flex-wrap: wrap; }
 
-    /* ===== PENGATURAN ===== */
     .settings-card { background: #fff; border-radius: 16px; padding: 24px 28px; border: 1px solid #e9edf2; margin-bottom: 20px; }
     .settings-card h3 { font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .settings-card .form-group { margin-bottom: 16px; }
     .settings-card .form-group label { display: block; font-weight: 600; font-size: 13px; color: #0f172a; margin-bottom: 6px; }
-    .settings-card .form-group input[type="text"],
-    .settings-card .form-group input[type="email"],
-    .settings-card .form-group input[type="number"],
-    .settings-card .form-group input[type="datetime-local"],
-    .settings-card .form-group textarea,
-    .settings-card .form-group select {
-      width: 100%; padding: 10px 14px; border: 1px solid #d1d9e6; border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif; background: #fafcfd;
-    }
-    .settings-card .form-group input:focus,
-    .settings-card .form-group textarea:focus,
-    .settings-card .form-group select:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
+    .settings-card .form-group input, .settings-card .form-group textarea, .settings-card .form-group select { width: 100%; padding: 10px 14px; border: 1px solid #d1d9e6; border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif; background: #fafcfd; }
+    .settings-card .form-group input:focus, .settings-card .form-group textarea:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
     .settings-card .form-group .hint { font-size: 12px; color: #94a3b8; margin-top: 4px; }
     .settings-card .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .toggle-wrapper { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f8fafc; border-radius: 10px; border: 1px solid #eef2f6; }
     .toggle-wrapper input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
-    .toggle-wrapper label { margin: 0; cursor: pointer; font-weight: 500; }
     .settings-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-    .btn-settings { padding: 10px 20px; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+    .btn-settings { padding: 10px 20px; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
     .btn-settings.save { background: #0f172a; color: #fff; }
     .btn-settings.save:hover { background: #1e293b; }
     .btn-settings.test { background: #10b981; color: #fff; }
     .btn-settings.test:hover { background: #059669; }
-    .btn-settings.trigger { background: #8b5cf6; color: #fff; }
-    .btn-settings.trigger:hover { background: #7c3aed; }
 
     .pengingat-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 12px; background: #f8fafc; border: 1px solid #eef2f6; margin-bottom: 10px; }
     .pengingat-item.past { opacity: 0.6; }
@@ -185,7 +168,7 @@
     .modal .form-group { margin-bottom: 16px; }
     .modal .form-group label { display: block; font-weight: 600; font-size: 13px; color: #0f172a; margin-bottom: 4px; }
     .modal .form-group input, .modal .form-group textarea, .modal .form-group select { width: 100%; padding: 10px 14px; border: 1px solid #d1d9e6; border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif; background: #fafcfd; }
-    .modal .form-group input:focus, .modal .form-group textarea:focus, .modal .form-group select:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
+    .modal .form-group input:focus, .modal .form-group textarea:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
     .modal .form-group textarea { resize: vertical; min-height: 70px; }
     .modal .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
     .modal .modal-actions .btn-secondary { background: #f1f5f9; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; font-size: 13px; cursor: pointer; color: #475569; }
@@ -193,18 +176,19 @@
     .modal .modal-actions .btn-save { background: #0f172a; color: #fff; border: none; padding: 8px 24px; border-radius: 30px; font-weight: 600; font-size: 13px; cursor: pointer; }
     .modal .modal-actions .btn-save:hover { background: #1e293b; }
 
-    .toast { position: fixed; bottom: 30px; right: 30px; background: #0f172a; color: #f8fafc; padding: 14px 24px; border-radius: 14px; font-weight: 500; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 9999; display: none; align-items: center; gap: 12px; max-width: 400px; }
+    .toast { position: fixed; bottom: 30px; right: 30px; background: #0f172a; color: #f8fafc; padding: 14px 24px; border-radius: 14px; font-weight: 500; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 9999; display: none; align-items: center; gap: 12px; max-width: 400px; animation: toastIn 0.3s ease; }
     .toast.show { display: flex; }
     .toast i { font-size: 20px; color: #60a5fa; }
     .toast.success i { color: #10b981; }
     .toast.error i { color: #ef4444; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
     .loading-placeholder { text-align: center; padding: 40px 20px; color: #94a3b8; }
     .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #e2e8f0; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 768px) {
-      .sidebar { position: fixed; transform: translateX(-100%); width: 280px; min-width: 280px; }
+      .sidebar { position: fixed; transform: translateX(-100%); width: 280px; min-width: 280px; box-shadow: 8px 0 30px rgba(0,0,0,0.2); }
       .sidebar.open { transform: translateX(0); }
       .sidebar-toggle { display: flex !important; }
       .main-header { padding: 14px 18px; }
@@ -222,8 +206,6 @@
     .sidebar-toggle { display: none; background: none; border: none; font-size: 22px; color: #0f172a; cursor: pointer; padding: 4px 8px; }
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 90; }
     .sidebar-overlay.open { display: block; }
-    .mt-2 { margin-top: 8px; }
-    .text-muted { color: #94a3b8; font-size: 13px; }
     .badge-info { background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 30px; font-size: 11px; font-weight: 600; margin-left: 8px; }
   </style>
 </head>
@@ -244,7 +226,7 @@
       <div class="nav-label" style="margin-top:12px;">Sistem</div>
       <a data-page="pengaturan" onclick="navigateTo('pengaturan')"><i class="fas fa-cog"></i> Pengaturan</a>
     </nav>
-    <div class="sidebar-footer"><i class="fas fa-database"></i><span>GS Database • v4.0</span></div>
+    <div class="sidebar-footer"><i class="fas fa-database"></i><span>Supabase • v1.0</span></div>
   </aside>
 
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -329,7 +311,6 @@
 
       <!-- PENGATURAN -->
       <section class="page-section" id="page-pengaturan">
-        <!-- Konfigurasi WhatsApp -->
         <div class="settings-card">
           <h3><i class="fas fa-bell" style="color:#10b981;"></i> Notifikasi WhatsApp</h3>
           <div class="form-row">
@@ -361,11 +342,8 @@
           <div class="settings-actions">
             <button class="btn-settings save" onclick="savePengaturanHandler()"><i class="fas fa-save"></i> Simpan Pengaturan</button>
             <button class="btn-settings test" onclick="testKirimWAHandler()"><i class="fas fa-paper-plane"></i> Test Kirim Pesan</button>
-            <button class="btn-settings trigger" onclick="setupTriggerHandler()"><i class="fas fa-clock"></i> Pasang Trigger 15 Menit</button>
           </div>
         </div>
-
-        <!-- Daftar Pengingat -->
         <div class="settings-card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
             <h3 style="margin:0;"><i class="fas fa-bell" style="color:#f59e0b;"></i> Daftar Kegiatan dengan Pengingat</h3>
@@ -442,12 +420,8 @@
         <div class="form-group"><label>Judul Kegiatan</label><input type="text" id="pengingatTitle" placeholder="Contoh: Rapat Koordinasi" required /></div>
         <div class="form-group"><label>Deskripsi</label><textarea id="pengingatDesc" placeholder="Detail kegiatan..."></textarea></div>
         <div class="form-group"><label>Tanggal & Jam Kegiatan</label><input type="datetime-local" id="pengingatDatetime" required /></div>
-        <div class="form-group">
-          <label>Nomor WA Khusus (opsional)</label>
-          <input type="text" id="pengingatWa" placeholder="Kosongkan = pakai nomor di Pengaturan" />
-        </div>
-        <div class="form-group">
-          <label>Status</label>
+        <div class="form-group"><label>Nomor WA Khusus (opsional)</label><input type="text" id="pengingatWa" placeholder="Kosongkan = pakai nomor di Pengaturan" /></div>
+        <div class="form-group"><label>Status</label>
           <select id="pengingatStatus">
             <option value="aktif">Aktif</option>
             <option value="selesai">Selesai</option>
@@ -465,8 +439,15 @@
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Berhasil!</span></div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0WD9YxBG45nkl3n00fk_-wdDTno46ymBmszigs17CrwpJHfQEPrO_9BwYBU01nYtyXQ/exec';
+    // =============================================================
+    //  KONFIGURASI SUPABASE
+    // =============================================================
+    const SUPABASE_URL = 'https://gzhnnxuqvarbqgjzfzsa.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aG5ueHVxdmFyYnFnanpmenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0NTM1ODUsImV4cCI6MjEwNTAyOTU4NX0.PpygTx2WFHrAm2-kOtOYonKoEj5bRXwJDlqOZZ2tBkU';
 
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ===== STATE =====
     let allActivities = [];
     let monthlyTasks = [];
     let monthlyTaskCompletions = {};
@@ -479,6 +460,7 @@
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => document.querySelectorAll(s);
 
+    // ===== DATE HELPERS =====
     function formatDate(d) { return d.toISOString().split('T')[0]; }
     function formatDateReadable(d) { return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
     function formatMonthYear(d) { return d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }); }
@@ -493,24 +475,44 @@
     function getDayOfWeek(d) { return d.getDay(); }
     function setDateDisplay() { $('#currentDateDisplay').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
 
+    // ===== LOAD DATA DARI SUPABASE =====
     async function loadFromBackend() {
       try {
-        const res = await fetch(SCRIPT_URL + '?action=getAll');
-        const json = await res.json();
-        if (json.status === 'success') {
-          allActivities = json.data.activities || [];
-          monthlyTasks = json.data.tasks || [];
-          monthlyTaskCompletions = json.data.completions || {};
-          pengaturanData = json.data.pengaturan || {};
-          pengingatData = json.data.pengingat || [];
-          renderAll();
-          updateBadges();
-        } else {
-          showToast('Gagal memuat: ' + (json.message || ''), 'error');
-        }
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+        const [actRes, taskRes, compRes, setRes, remRes] = await Promise.all([
+          db.from('activities').select('*').order('date', { ascending: false }),
+          db.from('monthly_tasks').select('*').order('created_at', { ascending: false }),
+          db.from('completions').select('*'),
+          db.from('settings').select('*'),
+          db.from('reminders').select('*').order('datetime', { ascending: true })
+        ]);
+
+        if (actRes.error) throw actRes.error;
+        if (taskRes.error) throw taskRes.error;
+        if (compRes.error) throw compRes.error;
+        if (setRes.error) throw setRes.error;
+        if (remRes.error) throw remRes.error;
+
+        allActivities = actRes.data || [];
+        monthlyTasks = taskRes.data || [];
+        pengingatData = remRes.data || [];
+
+        monthlyTaskCompletions = {};
+        (compRes.data || []).forEach(c => {
+          monthlyTaskCompletions[c.task_id + '_' + c.month_key] = c.completed_date;
+        });
+
+        pengaturanData = {};
+        (setRes.data || []).forEach(s => { pengaturanData[s.key] = s.value; });
+
+        renderAll();
+        updateBadges();
+      } catch (e) {
+        console.error('Load error:', e);
+        showToast('Gagal memuat: ' + e.message, 'error');
+      }
     }
 
+    // ===== RENDER ALL =====
     function renderAll() {
       renderDashboard();
       renderMonthly();
@@ -522,10 +524,10 @@
       updateBadges();
     }
 
+    // ===== DASHBOARD =====
     function renderDashboard() {
       const now = new Date();
-      const monthStart = startOfMonth(now);
-      const monthEnd = endOfMonth(now);
+      const monthStart = startOfMonth(now), monthEnd = endOfMonth(now);
       const today = startOfDay(now);
       const monthCount = allActivities.filter(a => { const d = new Date(a.date); return d >= monthStart && d <= monthEnd; }).length;
       const todayCount = allActivities.filter(a => isSameDay(new Date(a.date), today)).length;
@@ -553,7 +555,6 @@
           </div>
         `).join('');
       }
-
       renderDashboardTaskSummary();
     }
 
@@ -573,7 +574,7 @@
           <div style="background:#f8fafc;border-radius:10px;padding:12px 16px;border:1px solid #eef2f6;display:flex;justify-content:space-between;align-items:center;">
             <div>
               <div style="font-weight:600;font-size:14px;color:#0f172a;">${escHtml(task.title)}</div>
-              <div style="font-size:12px;color:#64748b;">Setiap tanggal ${task.dayOfMonth}</div>
+              <div style="font-size:12px;color:#64748b;">Setiap tanggal ${task.day_of_month}</div>
             </div>
             <div style="font-weight:600;font-size:13px;color:${isDone ? '#10b981' : '#f59e0b'};">${isDone ? '✅ Selesai' : '⏳ Pending'}</div>
           </div>
@@ -583,6 +584,7 @@
       container.innerHTML = html;
     }
 
+    // ===== KALENDER =====
     function renderMonthly() {
       $('#monthLabel').textContent = formatMonthYear(currentMonth);
       const grid = $('#monthGrid');
@@ -608,11 +610,12 @@
     function goTodayMonth() { currentMonth = new Date(); renderMonthly(); }
     function goToDay(day) { currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day); navigateTo('daily'); renderDaily(); }
 
+    // ===== TUGAS BULANAN =====
     function getPendingTasksForMonth(date) {
       const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
       return monthlyTasks.filter(task => {
         if (monthlyTaskCompletions[task.id + '_' + monthKey]) return false;
-        return task.dayOfMonth <= daysInMonth(date);
+        return task.day_of_month <= daysInMonth(date);
       });
     }
     function getCompletedTasksForMonth(date) {
@@ -627,7 +630,7 @@
       const pending = getPendingTasksForMonth(now);
       const completed = getCompletedTasksForMonth(now);
       if (pending.length === 0 && completed.length === 0) {
-        list.innerHTML = `<div class="empty-state" style="padding:24px;text-align:center;color:#64748b;">Tidak ada tugas bulanan.</div>`;
+        list.innerHTML = `<div style="padding:24px;text-align:center;color:#64748b;">Tidak ada tugas bulanan.</div>`;
         return;
       }
       let html = '';
@@ -651,7 +654,7 @@
           <div class="task-info">
             <div class="task-title">${escHtml(task.title)}</div>
             <div class="task-desc">${escHtml(task.description || '—')} • ${escHtml(task.category || 'Umum')}</div>
-            <div class="task-meta">Setiap tanggal ${task.dayOfMonth}</div>
+            <div class="task-meta">Setiap tanggal ${task.day_of_month}</div>
           </div>
           <div class="task-status ${isDone ? 'done' : 'pending'}">${isDone ? '✅ Selesai' : '⏳ Pending'}${isDone && completedDate ? ` (${formatDateReadable(new Date(completedDate))})` : ''}</div>
           <div class="task-actions">
@@ -662,43 +665,60 @@
       `;
     }
 
-    function openAddMonthlyTaskModal() { $('#editTaskId').value = ''; $('#taskTitle').value = ''; $('#taskDesc').value = ''; $('#taskDay').value = ''; $('#taskCategory').value = 'Umum'; $('#modalTaskOverlay').classList.add('open'); }
+    function openAddMonthlyTaskModal() {
+      $('#editTaskId').value = '';
+      $('#taskTitle').value = '';
+      $('#taskDesc').value = '';
+      $('#taskDay').value = '';
+      $('#taskCategory').value = 'Umum';
+      $('#modalTaskOverlay').classList.add('open');
+    }
     function closeTaskModal() { $('#modalTaskOverlay').classList.remove('open'); }
 
     async function saveMonthlyTask(e) {
       e.preventDefault();
-      const payload = { action: 'addTask', title: $('#taskTitle').value.trim(), description: $('#taskDesc').value.trim(), dayOfMonth: parseInt($('#taskDay').value), category: $('#taskCategory').value };
-      if (!payload.title || !payload.dayOfMonth) { showToast('Isi semua field.', 'error'); return; }
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        showToast('Tugas ditambahkan!', 'success');
-        closeTaskModal();
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const payload = {
+        id: 't' + Date.now() + Math.random().toString(36).substr(2, 4),
+        title: $('#taskTitle').value.trim(),
+        description: $('#taskDesc').value.trim(),
+        day_of_month: parseInt($('#taskDay').value),
+        category: $('#taskCategory').value
+      };
+      if (!payload.title || !payload.day_of_month) { showToast('Isi semua field.', 'error'); return; }
+      const { error } = await db.from('monthly_tasks').insert([payload]);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Tugas ditambahkan!', 'success');
+      closeTaskModal();
+      loadFromBackend();
     }
 
     async function completeTask(taskId) {
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'completeTask', taskId, completedDate: formatDate(new Date()) }) });
-        showToast('✅ Tugas selesai!', 'success');
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const now = new Date();
+      const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+      const { error } = await db.from('completions').upsert({
+        task_id: taskId,
+        month_key: monthKey,
+        completed_date: formatDate(now)
+      }, { onConflict: 'task_id,month_key' });
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('✅ Tugas selesai!', 'success');
+      loadFromBackend();
     }
 
     async function deleteMonthlyTask(taskId) {
       if (!confirm('Yakin hapus tugas ini?')) return;
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'deleteTask', id: taskId }) });
-        showToast('Tugas dihapus.', 'success');
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const { error } = await db.from('monthly_tasks').delete().eq('id', taskId);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Tugas dihapus.', 'success');
+      loadFromBackend();
     }
 
+    // ===== HARIAN =====
     function renderDaily() {
       $('#dayLabel').textContent = formatDateReadable(currentDay);
       const list = $('#dailyList');
       const target = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate());
-      const unfinished = allActivities.filter(a => !a.completedAt || a.completedAt === '');
+      const unfinished = allActivities.filter(a => !a.completed_at);
       const todayItems = unfinished.filter(a => { const d = new Date(a.date); return !isNaN(d) && isSameDay(d, target); });
       const overdueItems = unfinished.filter(a => { const d = new Date(a.date); return !isNaN(d) && d < target; });
       const items = [...overdueItems, ...todayItems];
@@ -711,7 +731,7 @@
       list.innerHTML = items.map(a => {
         const color = colorMap[a.category] || '#60a5fa';
         const isOverdue = overdueItems.includes(a);
-        const created = a.createdAt ? new Date(a.createdAt) : new Date();
+        const created = a.created_at ? new Date(a.created_at) : new Date();
         const activityDate = new Date(a.date);
         return `
           <div class="daily-card${isOverdue ? ' overdue' : ''}" style="${isOverdue ? '' : `border-left-color:${color};`}">
@@ -735,26 +755,29 @@
     }
 
     async function completeActivity(id) {
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'completeActivity', id, completedDate: formatDate(new Date()) }) });
-        showToast('✅ Aktivitas selesai!', 'success');
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const { error } = await db.from('activities').update({ completed_at: new Date().toISOString() }).eq('id', id);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('✅ Aktivitas selesai!', 'success');
+      loadFromBackend();
     }
 
     function changeDay(delta) { currentDay.setDate(currentDay.getDate() + delta); renderDaily(); }
     function goTodayDay() { currentDay = new Date(); renderDaily(); }
 
+    // ===== TIMELINE =====
     function renderTimeline() {
       const container = $('#timelineContainer');
-      if (allActivities.length === 0) { container.innerHTML = `<div class="empty-state" style="background:#fff;border-radius:16px;padding:48px;text-align:center;color:#94a3b8;">Belum ada aktivitas</div>`; return; }
+      if (allActivities.length === 0) {
+        container.innerHTML = `<div style="background:#fff;border-radius:16px;padding:48px;text-align:center;color:#94a3b8;">Belum ada aktivitas</div>`;
+        return;
+      }
       const sorted = [...allActivities].sort((a, b) => new Date(a.date) - new Date(b.date));
       const colorMap = { 'Umum':'#60a5fa','Rapat':'#f59e0b','Tugas':'#10b981','Kunjungan':'#ec4899','Lainnya':'#8b5cf6' };
       container.innerHTML = sorted.map(a => {
         const d = new Date(a.date);
         const color = colorMap[a.category] || '#60a5fa';
-        const created = a.createdAt ? new Date(a.createdAt) : new Date();
-        const isCompleted = a.completedAt && a.completedAt !== '';
+        const created = a.created_at ? new Date(a.created_at) : new Date();
+        const isCompleted = a.completed_at;
         return `
           <div class="timeline-item" style="border-left:4px solid ${color};">
             <div class="time">${formatDateReadable(d)} • ${formatTime(created)}</div>
@@ -767,7 +790,15 @@
     }
     function refreshTimeline() { loadFromBackend(); showToast('Data diperbarui!', 'success'); }
 
-    function openAddModal() { $('#editId').value = ''; $('#formTitle').value = ''; $('#formDesc').value = ''; $('#formDate').value = formatDate(new Date()); $('#formCategory').value = 'Umum'; $('#modalOverlay').classList.add('open'); }
+    // ===== CRUD AKTIVITAS =====
+    function openAddModal() {
+      $('#editId').value = '';
+      $('#formTitle').value = '';
+      $('#formDesc').value = '';
+      $('#formDate').value = formatDate(new Date());
+      $('#formCategory').value = 'Umum';
+      $('#modalOverlay').classList.add('open');
+    }
     function editActivity(id) {
       const a = allActivities.find(x => x.id === id);
       if (!a) return;
@@ -782,22 +813,35 @@
 
     async function saveActivity(e) {
       e.preventDefault();
-      const payload = { action: $('#editId').value ? 'update' : 'add', id: $('#editId').value, title: $('#formTitle').value.trim(), description: $('#formDesc').value.trim(), date: $('#formDate').value, category: $('#formCategory').value };
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        showToast('Aktivitas disimpan!', 'success');
-        closeModal();
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const id = $('#editId').value;
+      const data = {
+        title: $('#formTitle').value.trim(),
+        description: $('#formDesc').value.trim(),
+        date: $('#formDate').value,
+        category: $('#formCategory').value
+      };
+      if (!data.title || !data.date) { showToast('Judul dan tanggal wajib diisi!', 'error'); return; }
+
+      if (id) {
+        const { error } = await db.from('activities').update(data).eq('id', id);
+        if (error) { showToast('Error: ' + error.message, 'error'); return; }
+        showToast('Aktivitas diperbarui!', 'success');
+      } else {
+        data.id = 'a' + Date.now() + Math.random().toString(36).substr(2, 4);
+        const { error } = await db.from('activities').insert([data]);
+        if (error) { showToast('Error: ' + error.message, 'error'); return; }
+        showToast('Aktivitas ditambahkan!', 'success');
+      }
+      closeModal();
+      loadFromBackend();
     }
 
     async function deleteActivity(id) {
       if (!confirm('Yakin hapus aktivitas ini?')) return;
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', id }) });
-        showToast('Aktivitas dihapus!', 'success');
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const { error } = await db.from('activities').delete().eq('id', id);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Aktivitas dihapus!', 'success');
+      loadFromBackend();
     }
 
     // ===== PENGATURAN =====
@@ -809,17 +853,16 @@
     }
 
     async function savePengaturanHandler() {
-      const settings = {
-        wa_number: $('#setWaNumber').value.trim(),
-        email_backup: $('#setEmailBackup').value.trim(),
-        reminder_minutes: $('#setReminderMinutes').value,
-        wa_enabled: $('#setWaEnabled').checked ? 'true' : 'false'
-      };
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'savePengaturan', settings }) });
-        showToast('✅ Pengaturan disimpan!', 'success');
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const settings = [
+        { key: 'wa_number', value: $('#setWaNumber').value.trim() },
+        { key: 'email_backup', value: $('#setEmailBackup').value.trim() },
+        { key: 'reminder_minutes', value: $('#setReminderMinutes').value },
+        { key: 'wa_enabled', value: $('#setWaEnabled').checked ? 'true' : 'false' }
+      ];
+      const { error } = await db.from('settings').upsert(settings, { onConflict: 'key' });
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('✅ Pengaturan disimpan!', 'success');
+      loadFromBackend();
     }
 
     async function testKirimWAHandler() {
@@ -827,16 +870,14 @@
       if (!nomor) { showToast('Isi nomor WA dulu.', 'error'); return; }
       showToast('📤 Mengirim test...', 'success');
       try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'testWA', nomor, pesan: '🧪 Test dari Logbook Administrasi. Jika pesan ini diterima, integrasi WhatsApp berhasil! ✅' }) });
+        const { data, error } = await db.functions.invoke('send-reminders', {
+          body: { action: 'test', nomor: nomor, pesan: '🧪 Test dari Logbook Administrasi. Jika pesan ini diterima, integrasi WhatsApp berhasil! ✅' }
+        });
+        if (error) throw error;
         showToast('Pesan test terkirim! Cek WhatsApp.', 'success');
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
-    }
-
-    async function setupTriggerHandler() {
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'setupTrigger' }) });
-        showToast('✅ Trigger 15 menit dipasang!', 'success');
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+      }
     }
 
     // ===== PENGINGAT =====
@@ -851,7 +892,7 @@
       list.innerHTML = sorted.map(p => {
         const eventTime = new Date(p.datetime);
         const isPast = eventTime < now;
-        const reminderSent = String(p.reminder_sent) === 'true';
+        const reminderSent = p.reminder_sent;
         const status = p.status || 'aktif';
         let statusClass = status;
         let statusText = status;
@@ -899,13 +940,10 @@
       $('#pengingatModalTitle').innerHTML = '<i class="fas fa-pen" style="color:#f59e0b;margin-right:8px;"></i> Edit Kegiatan Pengingat';
       $('#pengingatTitle').value = p.title;
       $('#pengingatDesc').value = p.description || '';
-      // datetime-local perlu format YYYY-MM-DDTHH:mm
       if (p.datetime) {
         const dt = new Date(p.datetime);
-        if (!isNaN(dt)) {
-          const pad = n => String(n).padStart(2, '0');
-          $('#pengingatDatetime').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
-        }
+        const pad = n => String(n).padStart(2, '0');
+        $('#pengingatDatetime').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
       }
       $('#pengingatWa').value = p.wa_number || '';
       $('#pengingatStatus').value = p.status || 'aktif';
@@ -917,31 +955,36 @@
     async function savePengingat(e) {
       e.preventDefault();
       const id = $('#pengingatId').value;
-      const payload = {
-        action: id ? 'updatePengingat' : 'addPengingat',
-        id: id,
+      const data = {
         title: $('#pengingatTitle').value.trim(),
         description: $('#pengingatDesc').value.trim(),
         datetime: $('#pengingatDatetime').value,
-        wa_number: $('#pengingatWa').value.trim(),
+        wa_number: $('#pengingatWa').value.trim() || null,
         status: $('#pengingatStatus').value
       };
-      if (!payload.title || !payload.datetime) { showToast('Judul dan waktu wajib diisi.', 'error'); return; }
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        showToast(id ? 'Kegiatan diperbarui!' : 'Kegiatan ditambahkan!', 'success');
-        closePengingatModal();
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      if (!data.title || !data.datetime) { showToast('Judul dan waktu wajib diisi.', 'error'); return; }
+
+      if (id) {
+        const { error } = await db.from('reminders').update(data).eq('id', id);
+        if (error) { showToast('Error: ' + error.message, 'error'); return; }
+        showToast('Kegiatan diperbarui!', 'success');
+      } else {
+        data.id = 'r' + Date.now() + Math.random().toString(36).substr(2, 4);
+        data.reminder_sent = false;
+        const { error } = await db.from('reminders').insert([data]);
+        if (error) { showToast('Error: ' + error.message, 'error'); return; }
+        showToast('Kegiatan ditambahkan!', 'success');
+      }
+      closePengingatModal();
+      loadFromBackend();
     }
 
     async function deletePengingat(id) {
       if (!confirm('Yakin hapus kegiatan ini?')) return;
-      try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'deletePengingat', id }) });
-        showToast('Kegiatan dihapus.', 'success');
-        setTimeout(() => loadFromBackend(), 1500);
-      } catch (e) { showToast('Error: ' + e.message, 'error'); }
+      const { error } = await db.from('reminders').delete().eq('id', id);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Kegiatan dihapus.', 'success');
+      loadFromBackend();
     }
 
     // ===== NAVIGASI =====
@@ -997,8 +1040,12 @@
     });
     window.addEventListener('resize', () => { if (window.innerWidth > 768) toggleSidebar(false); });
 
-    document.addEventListener('DOMContentLoaded', () => { setDateDisplay(); loadFromBackend(); });
-    console.log('📋 Logbook v4.0 + Pengingat WhatsApp siap!');
+    document.addEventListener('DOMContentLoaded', () => {
+      setDateDisplay();
+      loadFromBackend();
+    });
+
+    console.log('📋 Logbook v1.0 (Supabase) siap!');
   </script>
 </body>
 </html>
