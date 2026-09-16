@@ -410,7 +410,7 @@
         <input type="hidden" id="pengingatId">
         <div class="form-group"><label>Judul Kegiatan</label><input type="text" id="pengingatTitle" placeholder="Contoh: Rapat Koordinasi" required /></div>
         <div class="form-group"><label>Deskripsi</label><textarea id="pengingatDesc" placeholder="Detail kegiatan..."></textarea></div>
-        <div class="form-group"><label>Tanggal & Jam Kegiatan (WIB)</label><input type="datetime-local" id="pengingatDatetime" required /></div>
+        <div class="form-group"><label>Tanggal & Jam Kegiatan (WITA)</label><input type="datetime-local" id="pengingatDatetime" required /></div>
         <div class="form-group"><label>Nomor WA Khusus (opsional)</label><input type="text" id="pengingatWa" placeholder="Kosongkan = pakai nomor di Pengaturan" /></div>
         <div class="form-group"><label>Status</label>
           <select id="pengingatStatus">
@@ -932,7 +932,7 @@
       $('#pengingatTitle').value = p.title;
       $('#pengingatDesc').value = p.description || '';
       if (p.datetime) {
-        // Konversi dari UTC (Supabase) ke lokal (WIB) untuk datetime-local
+        // Konversi dari UTC (Supabase) ke lokal (WITA) untuk datetime-local
         const dt = new Date(p.datetime);
         const pad = n => String(n).padStart(2, '0');
         $('#pengingatDatetime').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
