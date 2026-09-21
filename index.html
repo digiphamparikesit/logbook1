@@ -45,6 +45,8 @@
     .content-area { flex: 1; overflow-y: auto; padding: 28px 32px 40px; }
     .page-section { display: none; animation: fadeIn 0.35s ease; }
     .page-section.active { display: block; }
+    /* Untuk kalender, hilangkan scroll - pakai layout kolom flex */
+    #page-monthly.active { display: flex; flex-direction: column; height: 100%; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 32px; }
@@ -64,19 +66,79 @@
     .activity-item .activity-info .desc { font-size: 13px; color: #64748b; margin-top: 2px; }
     .activity-item .activity-date { font-size: 12px; color: #94a3b8; white-space: nowrap; }
 
-    .monthly-controls, .daily-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .monthly-controls, .daily-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; flex-shrink: 0; }
     .monthly-controls .month-nav, .daily-controls .date-nav { display: flex; align-items: center; gap: 12px; background: #fff; padding: 4px 12px 4px 16px; border-radius: 40px; border: 1px solid #e9edf2; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
     .monthly-controls .month-nav button, .daily-controls .date-nav button { background: none; border: none; font-size: 18px; color: #64748b; cursor: pointer; padding: 6px 8px; border-radius: 30px; transition: all 0.2s; }
     .monthly-controls .month-nav button:hover, .daily-controls .date-nav button:hover { background: #f1f5f9; color: #0f172a; }
     .monthly-controls .month-nav .month-label, .daily-controls .date-nav .date-label { font-weight: 600; font-size: 16px; min-width: 140px; text-align: center; color: #0f172a; }
 
-    .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; background: #fff; border-radius: 16px; padding: 16px; border: 1px solid #e9edf2; }
-    .month-grid .day-header { font-weight: 600; font-size: 12px; text-transform: uppercase; color: #94a3b8; text-align: center; padding: 8px 0; letter-spacing: 0.5px; }
-    .month-grid .day-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; background: #fafcfd; transition: all 0.15s ease; font-size: 14px; font-weight: 500; color: #0f172a; border: 1px solid transparent; }
+    /* Filter button untuk halaman Harian */
+    .filter-group { display: flex; gap: 6px; margin-left: auto; }
+    .filter-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid #d1d9e6; background: #fff; color: #475569; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+    .filter-btn:hover { background: #f1f5f9; }
+    .filter-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+    .filter-btn.active:hover { background: #1e293b; }
+    .filter-btn i { font-size: 12px; }
+    .filter-btn .count-badge { background: rgba(255,255,255,0.2); padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+    .filter-btn.active .count-badge { background: rgba(255,255,255,0.25); }
+
+    /* ============== KALENDER - PROPORSIONAL 1 LAYAR ============== */
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: auto repeat(6, 1fr);
+      gap: 5px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid #e9edf2;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .month-grid .day-header {
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      text-align: center;
+      padding: 4px 0;
+      letter-spacing: 0.5px;
+    }
+    .month-grid .day-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: #fafcfd;
+      transition: all 0.15s ease;
+      font-size: 15px;
+      font-weight: 500;
+      color: #0f172a;
+      border: 1px solid transparent;
+      min-height: 0;
+      position: relative;
+      padding: 4px;
+    }
     .month-grid .day-cell.empty { background: transparent; border: none; }
-    .month-grid .day-cell.today { border-color: #60a5fa; background: #eff6ff; }
+    .month-grid .day-cell.today { border-color: #60a5fa; background: #eff6ff; font-weight: 700; }
     .month-grid .day-cell.has-activity { background: #dbeafe; color: #1e40af; font-weight: 600; }
-    .month-grid .day-cell .day-dot { width: 5px; height: 5px; border-radius: 50%; background: #60a5fa; margin-top: 2px; }
+    .month-grid .day-cell .day-number { font-size: 15px; line-height: 1; }
+    .month-grid .day-cell .day-dot { width: 5px; height: 5px; border-radius: 50%; background: #60a5fa; margin-top: 3px; position: absolute; bottom: 6px; }
+    .month-grid .day-cell.today .day-dot { background: #2563eb; }
+    .month-grid .day-cell.has-activity .day-dot { background: #1e40af; }
+
+    /* Mode layar pendek (ketinggian <= 700px) - kecilkan lagi */
+    @media (max-height: 700px) {
+      .month-grid { gap: 4px; padding: 10px; }
+      .month-grid .day-cell .day-number { font-size: 13px; }
+      .month-grid .day-header { font-size: 10px; padding: 2px 0; }
+    }
+    @media (max-height: 600px) {
+      .month-grid .day-cell .day-number { font-size: 12px; }
+      .month-grid .day-cell .day-dot { width: 4px; height: 4px; bottom: 4px; }
+    }
 
     .monthly-tasks-section { background: #fff; border-radius: 16px; padding: 20px 24px; border: 1px solid #e9edf2; }
     .monthly-tasks-section .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
@@ -102,6 +164,7 @@
     .daily-list .empty-state i { font-size: 40px; margin-bottom: 12px; color: #cbd5e1; }
     .daily-card { background: #fff; border-radius: 14px; padding: 18px 24px; border-left: 4px solid #60a5fa; border: 1px solid #e9edf2; border-left-width: 4px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .daily-card.overdue { border-left-color: #f59e0b !important; background: #fffbeb; }
+    .daily-card.completed { border-left-color: #10b981 !important; background: #f0fdf4; }
     .daily-card .card-left { flex: 1; }
     .daily-card .card-left .title { font-weight: 600; font-size: 15px; color: #0f172a; }
     .daily-card .card-left .desc { font-size: 14px; color: #64748b; margin-top: 4px; }
@@ -116,6 +179,8 @@
     .daily-card .card-actions .btn-complete-daily { background: #10b981; color: #fff; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; }
     .daily-card .card-actions .btn-complete-daily:hover { background: #059669; color: #fff; }
     .daily-card .card-actions .btn-complete-daily:disabled { background: #e2e8f0; color: #475569; cursor: default; }
+    .daily-card .card-actions .btn-undo { background: #fef3c7; color: #92400e; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; }
+    .daily-card .card-actions .btn-undo:hover { background: #fde68a; color: #78350f; }
 
     .timeline-container { position: relative; padding-left: 32px; }
     .timeline-container::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #d1d9e6; }
@@ -202,6 +267,9 @@
       .main-header .page-title { font-size: 17px; }
       .main-header .header-actions .date-display { font-size: 12px; padding: 4px 12px; }
       .btn-primary { padding: 6px 14px; font-size: 12px; }
+      .filter-group { margin-left: 0; width: 100%; overflow-x: auto; }
+      .filter-btn { font-size: 12px; padding: 6px 12px; }
+      .month-grid .day-cell .day-number { font-size: 13px; }
     }
     .sidebar-toggle { display: none; background: none; border: none; font-size: 22px; color: #0f172a; cursor: pointer; padding: 4px 8px; }
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 90; }
@@ -226,7 +294,7 @@
       <div class="nav-label" style="margin-top:12px;">Sistem</div>
       <a data-page="pengaturan" onclick="navigateTo('pengaturan')"><i class="fas fa-cog"></i> Pengaturan</a>
     </nav>
-    <div class="sidebar-footer"><i class="fas fa-database"></i><span>Supabase • v1.0</span></div>
+    <div class="sidebar-footer"><i class="fas fa-database"></i><span>Supabase • v1.2</span></div>
   </aside>
 
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -292,6 +360,17 @@
             <button onclick="changeDay(1)"><i class="fas fa-chevron-right"></i></button>
           </div>
           <button class="btn-primary" onclick="goTodayDay()" style="background:#e2e8f0;color:#0f172a;"><i class="fas fa-calendar-check"></i> Hari Ini</button>
+          <div class="filter-group">
+            <button class="filter-btn active" id="btnFilterAktif" onclick="setDailyFilter('aktif')">
+              <i class="fas fa-hourglass-half"></i> Aktif <span class="count-badge" id="cntAktif">0</span>
+            </button>
+            <button class="filter-btn" id="btnFilterSelesai" onclick="setDailyFilter('selesai')">
+              <i class="fas fa-check-circle"></i> Selesai <span class="count-badge" id="cntSelesai">0</span>
+            </button>
+            <button class="filter-btn" id="btnFilterSemua" onclick="setDailyFilter('semua')">
+              <i class="fas fa-list"></i> Semua <span class="count-badge" id="cntSemua">0</span>
+            </button>
+          </div>
         </div>
         <div class="daily-list" id="dailyList"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
       </section>
@@ -430,15 +509,11 @@
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Berhasil!</span></div>
 
   <script>
-    // =============================================================
-    //  KONFIGURASI SUPABASE
-    // =============================================================
     const SUPABASE_URL = 'https://gzhnnxuqvarbqgjzfzsa.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aG5ueHVxdmFyYnFnanpmenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0NTM1ODUsImV4cCI6MjEwNTAyOTU4NX0.PpygTx2WFHrAm2-kOtOYonKoEj5bRXwJDlqOZZ2tBkU';
 
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ===== STATE =====
     let allActivities = [];
     let monthlyTasks = [];
     let monthlyTaskCompletions = {};
@@ -447,11 +522,11 @@
     let currentMonth = new Date();
     let currentDay = new Date();
     let currentPage = 'dashboard';
+    let dailyFilter = 'aktif';
 
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => document.querySelectorAll(s);
 
-    // ===== DATE HELPERS =====
     function formatDate(d) { return d.toISOString().split('T')[0]; }
     function formatDateReadable(d) { return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
     function formatMonthYear(d) { return d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }); }
@@ -466,7 +541,6 @@
     function getDayOfWeek(d) { return d.getDay(); }
     function setDateDisplay() { $('#currentDateDisplay').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
 
-    // ===== LOAD DATA DARI SUPABASE =====
     async function loadFromBackend() {
       try {
         const [actRes, taskRes, compRes, setRes, remRes] = await Promise.all([
@@ -503,7 +577,6 @@
       }
     }
 
-    // ===== RENDER ALL =====
     function renderAll() {
       renderDashboard();
       renderMonthly();
@@ -515,7 +588,6 @@
       updateBadges();
     }
 
-    // ===== DASHBOARD =====
     function renderDashboard() {
       const now = new Date();
       const monthStart = startOfMonth(now), monthEnd = endOfMonth(now);
@@ -575,7 +647,6 @@
       container.innerHTML = html;
     }
 
-    // ===== KALENDER =====
     function renderMonthly() {
       $('#monthLabel').textContent = formatMonthYear(currentMonth);
       const grid = $('#monthGrid');
@@ -592,8 +663,13 @@
         let cls = 'day-cell';
         if (isSameDay(dateObj, today)) cls += ' today';
         if (activityDates.has(d)) cls += ' has-activity';
-        html += `<div class="${cls}" onclick="goToDay(${d})" style="cursor:pointer;"><span>${d}</span>${activityDates.has(d) ? '<span class="day-dot"></span>' : ''}</div>`;
+        html += `<div class="${cls}" onclick="goToDay(${d})" style="cursor:pointer;"><span class="day-number">${d}</span>${activityDates.has(d) ? '<span class="day-dot"></span>' : ''}</div>`;
       }
+      // Isi sisa grid agar layout tetap proporsional (6 baris x 7 kolom = 42)
+      const totalCells = firstDay + days;
+      const sisa = (7 - (totalCells % 7)) % 7;
+      for (let i = 0; i < sisa; i++) html += `<div class="day-cell empty"></div>`;
+
       grid.innerHTML = html;
     }
 
@@ -601,7 +677,6 @@
     function goTodayMonth() { currentMonth = new Date(); renderMonthly(); }
     function goToDay(day) { currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day); navigateTo('daily'); renderDaily(); }
 
-    // ===== TUGAS BULANAN =====
     function getPendingTasksForMonth(date) {
       const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
       return monthlyTasks.filter(task => {
@@ -704,28 +779,60 @@
       loadFromBackend();
     }
 
-    // ===== HARIAN =====
+    function setDailyFilter(mode) {
+      dailyFilter = mode;
+      $('#btnFilterAktif').classList.toggle('active', mode === 'aktif');
+      $('#btnFilterSelesai').classList.toggle('active', mode === 'selesai');
+      $('#btnFilterSemua').classList.toggle('active', mode === 'semua');
+      renderDaily();
+    }
+
     function renderDaily() {
       $('#dayLabel').textContent = formatDateReadable(currentDay);
       const list = $('#dailyList');
       const target = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate());
+
       const unfinished = allActivities.filter(a => !a.completed_at);
+      const finished = allActivities.filter(a => a.completed_at);
+
       const todayItems = unfinished.filter(a => { const d = new Date(a.date); return !isNaN(d) && isSameDay(d, target); });
       const overdueItems = unfinished.filter(a => { const d = new Date(a.date); return !isNaN(d) && d < target; });
-      const items = [...overdueItems, ...todayItems];
+      const completedItems = finished.filter(a => { const d = new Date(a.date); return !isNaN(d) && isSameDay(d, target); });
+
+      const activeCount = todayItems.length + overdueItems.length;
+      $('#cntAktif').textContent = activeCount;
+      $('#cntSelesai').textContent = completedItems.length;
+      $('#cntSemua').textContent = activeCount + completedItems.length;
+
+      let items = [];
+      if (dailyFilter === 'aktif') items = [...overdueItems, ...todayItems];
+      else if (dailyFilter === 'selesai') items = completedItems;
+      else items = [...overdueItems, ...todayItems, ...completedItems];
 
       if (items.length === 0) {
-        list.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-day"></i><p style="font-size:16px;font-weight:500;color:#64748b;">Tidak ada aktivitas</p></div>`;
+        let emptyMsg = '';
+        if (dailyFilter === 'aktif') emptyMsg = 'Tidak ada aktivitas yang belum selesai pada tanggal ini';
+        else if (dailyFilter === 'selesai') emptyMsg = 'Belum ada aktivitas yang selesai pada tanggal ini';
+        else emptyMsg = 'Tidak ada aktivitas pada tanggal ini';
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-day"></i><p style="font-size:16px;font-weight:500;color:#64748b;">${emptyMsg}</p></div>`;
         return;
       }
+
       const colorMap = { 'Umum':'#60a5fa','Rapat':'#f59e0b','Tugas':'#10b981','Kunjungan':'#ec4899','Lainnya':'#8b5cf6' };
       list.innerHTML = items.map(a => {
         const color = colorMap[a.category] || '#60a5fa';
         const isOverdue = overdueItems.includes(a);
+        const isCompleted = !!a.completed_at;
         const created = a.created_at ? new Date(a.created_at) : new Date();
         const activityDate = new Date(a.date);
+        const completedDate = a.completed_at ? new Date(a.completed_at) : null;
+
+        let cardClass = 'daily-card';
+        if (isCompleted) cardClass += ' completed';
+        else if (isOverdue) cardClass += ' overdue';
+
         return `
-          <div class="daily-card${isOverdue ? ' overdue' : ''}" style="${isOverdue ? '' : `border-left-color:${color};`}">
+          <div class="${cardClass}" style="${!isCompleted && !isOverdue ? `border-left-color:${color};` : ''}">
             <div class="card-left">
               <div class="title">${escHtml(a.title)}</div>
               <div class="desc">${escHtml(a.description || '—')}</div>
@@ -733,12 +840,17 @@
                 <span class="cat">${escHtml(a.category || 'Umum')}</span>
                 <span><i class="far fa-clock"></i> ${formatTime(created)}</span>
                 ${isOverdue ? `<span class="status-overdue"><i class="fas fa-exclamation-triangle"></i> Tertunda (${formatDateReadable(activityDate)})</span>` : ''}
+                ${isCompleted && completedDate ? `<span class="status-done"><i class="fas fa-check-circle"></i> Selesai ${formatDateReadable(completedDate)} • ${formatTime(completedDate)}</span>` : ''}
               </div>
             </div>
             <div class="card-actions">
-              <button class="btn-complete-daily" onclick="completeActivity('${a.id}')"><i class="fas fa-check"></i> Selesai</button>
-              <button class="edit" onclick="editActivity('${a.id}')"><i class="fas fa-pen"></i></button>
-              <button onclick="deleteActivity('${a.id}')"><i class="fas fa-trash"></i></button>
+              ${!isCompleted ? `
+                <button class="btn-complete-daily" onclick="completeActivity('${a.id}')"><i class="fas fa-check"></i> Selesai</button>
+              ` : `
+                <button class="btn-undo" onclick="undoCompleteActivity('${a.id}')" title="Batalkan status selesai"><i class="fas fa-undo"></i> Batalkan</button>
+              `}
+              <button class="edit" onclick="editActivity('${a.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+              <button onclick="deleteActivity('${a.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
             </div>
           </div>
         `;
@@ -752,10 +864,17 @@
       loadFromBackend();
     }
 
+    async function undoCompleteActivity(id) {
+      if (!confirm('Batalkan status selesai aktivitas ini?')) return;
+      const { error } = await db.from('activities').update({ completed_at: null }).eq('id', id);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Status dikembalikan ke aktif.', 'success');
+      loadFromBackend();
+    }
+
     function changeDay(delta) { currentDay.setDate(currentDay.getDate() + delta); renderDaily(); }
     function goTodayDay() { currentDay = new Date(); renderDaily(); }
 
-    // ===== TIMELINE =====
     function renderTimeline() {
       const container = $('#timelineContainer');
       if (allActivities.length === 0) {
@@ -770,18 +889,20 @@
         const created = a.created_at ? new Date(a.created_at) : new Date();
         const isCompleted = a.completed_at;
         return `
-          <div class="timeline-item" style="border-left:4px solid ${color};">
+          <div class="timeline-item" style="border-left:4px solid ${isCompleted ? '#10b981' : color};">
             <div class="time">${formatDateReadable(d)} • ${formatTime(created)}</div>
             <div class="title">${escHtml(a.title)}</div>
             <div class="desc">${escHtml(a.description || '—')}</div>
-            <div class="meta"><span>🏷️ ${escHtml(a.category || 'Umum')}</span>${isCompleted ? `<span style="color:#10b981;"><i class="fas fa-check-circle"></i> Selesai</span>` : ''}</div>
+            <div class="meta">
+              <span>🏷️ ${escHtml(a.category || 'Umum')}</span>
+              ${isCompleted ? `<span style="color:#10b981;"><i class="fas fa-check-circle"></i> Selesai</span>` : `<span style="color:#f59e0b;"><i class="fas fa-hourglass-half"></i> Aktif</span>`}
+            </div>
           </div>
         `;
       }).join('');
     }
     function refreshTimeline() { loadFromBackend(); showToast('Data diperbarui!', 'success'); }
 
-    // ===== CRUD AKTIVITAS =====
     function openAddModal() {
       $('#editId').value = '';
       $('#formTitle').value = '';
@@ -835,7 +956,6 @@
       loadFromBackend();
     }
 
-    // ===== PENGATURAN =====
     function renderPengaturan() {
       $('#setWaNumber').value = pengaturanData.wa_number || '';
       $('#setEmailBackup').value = pengaturanData.email_backup || '';
@@ -871,7 +991,6 @@
       }
     }
 
-    // ===== PENGINGAT =====
     function renderPengingat() {
       const list = $('#pengingatList');
       if (pengingatData.length === 0) {
@@ -899,7 +1018,7 @@
               <div class="p-desc">${escHtml(p.description || '—')}</div>
               <div class="p-meta">
                 <span><i class="far fa-calendar-alt"></i> ${formatDateReadable(eventTime)}</span>
-                <span><i class="far fa-clock"></i> ${eventTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
+                <span><i class="far fa-clock"></i> ${eventTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WITA</span>
                 ${p.wa_number ? `<span class="p-wa"><i class="fab fa-whatsapp"></i> ${escHtml(p.wa_number)}</span>` : ''}
               </div>
             </div>
@@ -932,7 +1051,6 @@
       $('#pengingatTitle').value = p.title;
       $('#pengingatDesc').value = p.description || '';
       if (p.datetime) {
-        // Konversi dari UTC (Supabase) ke lokal (WITA) untuk datetime-local
         const dt = new Date(p.datetime);
         const pad = n => String(n).padStart(2, '0');
         $('#pengingatDatetime').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
@@ -944,14 +1062,11 @@
 
     function closePengingatModal() { $('#modalPengingatOverlay').classList.remove('open'); }
 
-    // ====== PERBAIKAN TIMEZONE DI SINI ======
     async function savePengingat(e) {
       e.preventDefault();
       const id = $('#pengingatId').value;
-      const dtLocal = $('#pengingatDatetime').value; // contoh: "2026-09-15T16:45"
+      const dtLocal = $('#pengingatDatetime').value;
       if (!dtLocal) { showToast('Tanggal & jam wajib diisi.', 'error'); return; }
-
-      // Konversi dari local time ke UTC ISO string (Supabase simpan dalam UTC)
       const dtUtc = new Date(dtLocal).toISOString();
 
       const data = {
@@ -986,7 +1101,6 @@
       loadFromBackend();
     }
 
-    // ===== NAVIGASI =====
     function navigateTo(page) {
       currentPage = page;
       $$('.sidebar-nav a').forEach(el => el.classList.remove('active'));
@@ -1044,7 +1158,7 @@
       loadFromBackend();
     });
 
-    console.log('📋 Logbook v1.0 (Supabase) siap!');
+    console.log('📋 Logbook v1.2 (Supabase) - Calendar fit to screen');
   </script>
 </body>
 </html>
