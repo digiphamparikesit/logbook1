@@ -614,9 +614,9 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Tanggal Diterima <span class="req">*</span></label>
-            <input type="date" id="fuReceivedDate" required />
-          </div>
+            <label>Tanggal & Jam Diterima <span class="req">*</span></label>
+            <input type="datetime-local" id="fuReceivedDate" required />
+        </div>
           <div class="form-group">
             <label>Deadline (opsional)</label>
             <input type="date" id="fuDeadline" />
@@ -1183,7 +1183,7 @@
             </div>
             <div class="followup-info">
               <span><i class="fas fa-inbox"></i> ${getSourceLabel(f.source_type)}${f.source ? ': ' + escHtml(f.source) : ''}</span>
-              <span><i class="fas fa-calendar-plus"></i> ${formatDateShort(receivedDate)}</span>
+              <span><i class="fas fa-calendar-plus"></i> ${formatDateShort(receivedDate)} • ${formatTime(receivedDate)}</span>
               ${f.forwarded_to ? `<span><i class="fas fa-share"></i> → ${escHtml(f.forwarded_to)}</span>` : ''}
               ${f.deadline ? `<span><i class="fas fa-hourglass-end"></i> ${formatDateShort(new Date(f.deadline))}</span>` : ''}
               ${deadlineInfo ? `<span>${deadlineInfo}</span>` : ''}
@@ -1210,7 +1210,9 @@
       $('#fuDesc').value = '';
       $('#fuSource').value = '';
       $('#fuSourceType').value = 'lainnya';
-      $('#fuReceivedDate').value = formatDate(new Date());
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      $('#fuReceivedDate').value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
       $('#fuDeadline').value = '';
       $('#fuForwardedTo').value = '';
       $('#fuPriority').value = 'normal';
@@ -1228,7 +1230,11 @@
       $('#fuDesc').value = f.description || '';
       $('#fuSource').value = f.source || '';
       $('#fuSourceType').value = f.source_type || 'lainnya';
-      $('#fuReceivedDate').value = f.received_date;
+      if (f.received_date) {
+      const dt = new Date(f.received_date);
+      const pad = n => String(n).padStart(2, '0');
+      $('#fuReceivedDate').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+    }
       $('#fuDeadline').value = f.deadline || '';
       $('#fuForwardedTo').value = f.forwarded_to || '';
       $('#fuPriority').value = f.priority || 'normal';
@@ -1245,7 +1251,7 @@
         description: $('#fuDesc').value.trim(),
         source: $('#fuSource').value.trim(),
         source_type: $('#fuSourceType').value,
-        received_date: $('#fuReceivedDate').value,
+        received_date: new Date($('#fuReceivedDate').value).toISOString(),
         deadline: $('#fuDeadline').value || null,
         forwarded_to: $('#fuForwardedTo').value.trim(),
         priority: $('#fuPriority').value,
@@ -1338,7 +1344,7 @@
         <div class="detail-section">
           <div class="detail-section-title">Informasi</div>
           <div class="detail-row"><span class="label">Sumber</span><span class="value">${getSourceLabel(f.source_type)}${f.source ? ' — ' + escHtml(f.source) : ''}</span></div>
-          <div class="detail-row"><span class="label">Tanggal Diterima</span><span class="value">${formatDateReadable(new Date(f.received_date))}</span></div>
+          <div class="detail-row"><span class="label">Tanggal Diterima</span><span class="value">${formatDateReadable(new Date(f.received_date))} • ${formatTime(new Date(f.received_date))}</span></div>
           ${f.forwarded_to ? `<div class="detail-row"><span class="label">Diteruskan Ke</span><span class="value">${escHtml(f.forwarded_to)}</span></div>` : ''}
           ${f.deadline ? `<div class="detail-row"><span class="label">Deadline</span><span class="value">${formatDateReadable(new Date(f.deadline))}</span></div>` : ''}
           ${f.completed_at ? `<div class="detail-row"><span class="label">Selesai Pada</span><span class="value">${formatDateReadable(new Date(f.completed_at))}</span></div>` : ''}
