@@ -59,6 +59,8 @@
     .stat-card.followup-stat .stat-icon { color: #8b5cf6; }
     .stat-card.urgent-stat { border-left: 4px solid #ef4444; }
     .stat-card.urgent-stat .stat-icon { color: #ef4444; }
+    .stat-card.staff-stat { border-left: 4px solid #06b6d4; }
+    .stat-card.staff-stat .stat-icon { color: #06b6d4; }
 
     .recent-activities { background: #fff; border-radius: 16px; padding: 24px 28px; border: 1px solid #e9edf2; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
     .recent-activities h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #0f172a; }
@@ -237,6 +239,48 @@
     .log-item .log-delete { background: none; border: none; color: #cbd5e1; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
     .log-item .log-delete:hover { background: #fee2e2; color: #ef4444; }
 
+    /* ===== STAFF ===== */
+    .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .staff-card { background: #fff; border-radius: 14px; padding: 18px 20px; border: 1px solid #e9edf2; border-left: 4px solid #06b6d4; transition: all 0.2s; position: relative; }
+    .staff-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .staff-card.pos-apoteker { border-left-color: #8b5cf6; }
+    .staff-card.pos-ttk { border-left-color: #3b82f6; }
+    .staff-card.pos-administrasi { border-left-color: #06b6d4; }
+    .staff-card.pos-transporter { border-left-color: #f59e0b; }
+    .staff-card.pos-kepala { border-left-color: #ef4444; background: #fef2f2; }
+    .staff-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .staff-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: #fff; flex-shrink: 0; }
+    .staff-avatar.L { background: linear-gradient(135deg, #3b82f6, #1e40af); }
+    .staff-avatar.P { background: linear-gradient(135deg, #ec4899, #9f1239); }
+    .staff-name-block { flex: 1; }
+    .staff-name { font-weight: 700; font-size: 15px; color: #0f172a; line-height: 1.3; }
+    .staff-position-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .staff-position-badge.pos-apoteker { background: #ede9fe; color: #6d28d9; }
+    .staff-position-badge.pos-ttk { background: #dbeafe; color: #1e40af; }
+    .staff-position-badge.pos-administrasi { background: #cffafe; color: #0e7490; }
+    .staff-position-badge.pos-transporter { background: #fef3c7; color: #92400e; }
+    .staff-position-badge.pos-kepala { background: #fee2e2; color: #991b1b; }
+    .staff-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .staff-info-item { font-size: 12px; }
+    .staff-info-item .label { color: #94a3b8; font-weight: 500; display: block; margin-bottom: 2px; }
+    .staff-info-item .value { color: #0f172a; font-weight: 600; }
+    .staff-info-item .value.highlight { color: #06b6d4; }
+    .staff-info-item .value i { font-size: 11px; margin-right: 4px; }
+    .staff-actions { display: flex; gap: 6px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
+    .staff-actions button { padding: 6px 12px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; background: #f1f5f9; color: #475569; }
+    .staff-actions button:hover { background: #e2e8f0; }
+    .staff-actions .btn-edit-staff:hover { background: #dbeafe; color: #1e40af; }
+    .staff-actions .btn-del-staff:hover { background: #fee2e2; color: #ef4444; }
+    .staff-empty { text-align: center; padding: 60px 20px; color: #94a3b8; background: #fff; border-radius: 16px; border: 1px dashed #d1d9e6; }
+    .staff-empty i { font-size: 56px; color: #cbd5e1; margin-bottom: 16px; display: block; }
+    .staff-empty p { font-size: 16px; font-weight: 500; color: #64748b; margin-bottom: 6px; }
+    .staff-empty small { font-size: 13px; color: #94a3b8; }
+    .staff-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .staff-summary-item { background: #f8fafc; border-radius: 12px; padding: 14px 16px; border: 1px solid #eef2f6; display: flex; align-items: center; gap: 12px; }
+    .staff-summary-item .icon { font-size: 22px; }
+    .staff-summary-item .info .num { font-weight: 700; font-size: 20px; color: #0f172a; line-height: 1; }
+    .staff-summary-item .info .label { font-size: 12px; color: #64748b; margin-top: 2px; }
+
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.open { display: flex; }
     .modal { background: #fff; border-radius: 20px; max-width: 560px; width: 100%; padding: 32px 36px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
@@ -255,13 +299,6 @@
     .modal .modal-actions .btn-secondary:hover { background: #e2e8f0; }
     .modal .modal-actions .btn-save { background: #0f172a; color: #fff; border: none; padding: 8px 24px; border-radius: 30px; font-weight: 600; font-size: 13px; cursor: pointer; }
     .modal .modal-actions .btn-save:hover { background: #1e293b; }
-    .detail-section { margin-bottom: 18px; }
-    .detail-section-title { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-    .detail-row:last-child { border-bottom: none; }
-    .detail-row .label { color: #64748b; font-weight: 500; }
-    .detail-row .value { color: #0f172a; font-weight: 600; text-align: right; max-width: 60%; }
-    .detail-desc { padding: 12px 16px; background: #f8fafc; border-radius: 10px; font-size: 14px; color: #475569; line-height: 1.6; }
 
     .toast { position: fixed; bottom: 30px; right: 30px; background: #0f172a; color: #f8fafc; padding: 14px 24px; border-radius: 14px; font-weight: 500; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 9999; display: none; align-items: center; gap: 12px; max-width: 400px; animation: toastIn 0.3s ease; }
     .toast.show { display: flex; }
@@ -295,6 +332,7 @@
       .followup-card-header { flex-direction: column; align-items: flex-start; }
       .modal .form-row { grid-template-columns: 1fr; }
       .modal { padding: 24px 20px; }
+      .staff-grid { grid-template-columns: 1fr; }
     }
     .sidebar-toggle { display: none; background: none; border: none; font-size: 22px; color: #0f172a; cursor: pointer; padding: 4px 8px; }
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 90; }
@@ -317,10 +355,12 @@
       <a data-page="daily" onclick="navigateTo('daily')"><i class="fas fa-calendar-day"></i> Harian</a>
       <a data-page="followup" onclick="navigateTo('followup')"><i class="fas fa-share-square"></i> Follow Up <span class="badge" id="followupBadge">0</span></a>
       <a data-page="timeline" onclick="navigateTo('timeline')"><i class="fas fa-clock"></i> Timeline</a>
+      <div class="nav-label" style="margin-top:12px;">Master Data</div>
+      <a data-page="staff" onclick="navigateTo('staff')"><i class="fas fa-users"></i> Data Staff <span class="badge" id="staffBadge">0</span></a>
       <div class="nav-label" style="margin-top:12px;">Sistem</div>
       <a data-page="pengaturan" onclick="navigateTo('pengaturan')"><i class="fas fa-cog"></i> Pengaturan</a>
     </nav>
-    <div class="sidebar-footer"><i class="fas fa-database"></i><span>Supabase • v1.4</span></div>
+    <div class="sidebar-footer"><i class="fas fa-database"></i><span>Supabase • v1.5</span></div>
   </aside>
 
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -347,21 +387,10 @@
           <div class="stat-card"><div class="stat-icon"><i class="fas fa-tasks"></i></div><div class="stat-number" id="pendingTasksCount">0</div><div class="stat-label">Tugas Bulanan Pending</div></div>
         </div>
         <div class="stats-grid" style="margin-top:-12px;">
-          <div class="stat-card followup-stat">
-            <div class="stat-icon"><i class="fas fa-share-square"></i></div>
-            <div class="stat-number" id="followupActiveCount">0</div>
-            <div class="stat-label">Follow Up Aktif</div>
-          </div>
-          <div class="stat-card urgent-stat">
-            <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
-            <div class="stat-number" id="followupUrgentCount">0</div>
-            <div class="stat-label">Follow Up Urgent</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-check-circle" style="color:#10b981;"></i></div>
-            <div class="stat-number" id="followupDoneMonth">0</div>
-            <div class="stat-label">Selesai Bulan Ini</div>
-          </div>
+          <div class="stat-card followup-stat"><div class="stat-icon"><i class="fas fa-share-square"></i></div><div class="stat-number" id="followupActiveCount">0</div><div class="stat-label">Follow Up Aktif</div></div>
+          <div class="stat-card urgent-stat"><div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="stat-number" id="followupUrgentCount">0</div><div class="stat-label">Follow Up Urgent</div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-check-circle" style="color:#10b981;"></i></div><div class="stat-number" id="followupDoneMonth">0</div><div class="stat-label">Selesai Bulan Ini</div></div>
+          <div class="stat-card staff-stat"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-number" id="totalStaffCount">0</div><div class="stat-label">Total Staff</div></div>
         </div>
         <div class="recent-activities" style="margin-bottom: 24px;">
           <h3><i class="fas fa-share-square" style="color:#8b5cf6;margin-right:8px;"></i> Follow Up Aktif</h3>
@@ -433,6 +462,26 @@
         </div>
       </section>
 
+      <!-- ============ STAFF ============ -->
+      <section class="page-section" id="page-staff">
+        <div class="monthly-tasks-section">
+          <div class="task-header">
+            <h3><i class="fas fa-users" style="color:#06b6d4;margin-right:8px;"></i> Data Staff</h3>
+            <button class="btn-primary" onclick="openAddStaffModal()" style="background:#06b6d4;"><i class="fas fa-plus"></i> Tambah Staff</button>
+          </div>
+          <div class="filter-group" style="margin-left:0;margin-bottom:16px;">
+            <button class="filter-btn active" id="stFilterSemua" onclick="setStaffFilter('semua')"><i class="fas fa-list"></i> Semua <span class="count-badge" id="stCntSemua">0</span></button>
+            <button class="filter-btn" id="stFilterApoteker" onclick="setStaffFilter('Apoteker')"><i class="fas fa-prescription"></i> Apoteker <span class="count-badge" id="stCntApoteker">0</span></button>
+            <button class="filter-btn" id="stFilterTTK" onclick="setStaffFilter('TTK')"><i class="fas fa-pills"></i> TTK <span class="count-badge" id="stCntTTK">0</span></button>
+            <button class="filter-btn" id="stFilterAdministrasi" onclick="setStaffFilter('Administrasi')"><i class="fas fa-file-alt"></i> Administrasi <span class="count-badge" id="stCntAdministrasi">0</span></button>
+            <button class="filter-btn" id="stFilterTransporter" onclick="setStaffFilter('Transporter')"><i class="fas fa-truck"></i> Transporter <span class="count-badge" id="stCntTransporter">0</span></button>
+            <button class="filter-btn" id="stFilterKepala" onclick="setStaffFilter('Kepala Instalasi')"><i class="fas fa-crown"></i> Kepala <span class="count-badge" id="stCntKepala">0</span></button>
+          </div>
+          <div id="staffSummary" class="staff-summary"></div>
+          <div id="staffList" class="staff-grid"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
+        </div>
+      </section>
+
       <section class="page-section" id="page-timeline">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
           <h3 style="font-size:18px;font-weight:600;color:#0f172a;"><i class="fas fa-stream" style="color:#60a5fa;margin-right:8px;"></i> Semua Aktivitas</h3>
@@ -445,45 +494,16 @@
         <div class="settings-card">
           <h3><i class="fas fa-bell" style="color:#10b981;"></i> Notifikasi WhatsApp</h3>
           <div class="form-row">
-            <div class="form-group">
-              <label>Nomor WhatsApp Tujuan (Pengingat Kegiatan)</label>
-              <input type="text" id="setWaNumber" placeholder="08123456789" />
-              <div class="hint">Format: 08xxx atau 628xxx (tanpa tanda +)</div>
-            </div>
-            <div class="form-group">
-              <label>Email Backup (opsional)</label>
-              <input type="email" id="setEmailBackup" placeholder="email@contoh.com" />
-              <div class="hint">Untuk cadangan notifikasi ke depan</div>
-            </div>
+            <div class="form-group"><label>Nomor WhatsApp Tujuan (Pengingat Kegiatan)</label><input type="text" id="setWaNumber" placeholder="08123456789" /><div class="hint">Format: 08xxx atau 628xxx (tanpa tanda +)</div></div>
+            <div class="form-group"><label>Email Backup (opsional)</label><input type="email" id="setEmailBackup" placeholder="email@contoh.com" /><div class="hint">Untuk cadangan notifikasi ke depan</div></div>
           </div>
           <div class="form-row">
-            <div class="form-group">
-              <label>Kirim pengingat berapa menit sebelum kegiatan?</label>
-              <input type="number" id="setReminderMinutes" min="1" max="1440" value="30" />
-              <div class="hint">Default: 30 menit</div>
-            </div>
-            <div class="form-group">
-              <label>Status Notifikasi Pengingat</label>
-              <div class="toggle-wrapper">
-                <input type="checkbox" id="setWaEnabled" />
-                <label for="setWaEnabled">Aktifkan pengiriman WhatsApp</label>
-              </div>
-            </div>
+            <div class="form-group"><label>Kirim pengingat berapa menit sebelum kegiatan?</label><input type="number" id="setReminderMinutes" min="1" max="1440" value="30" /><div class="hint">Default: 30 menit</div></div>
+            <div class="form-group"><label>Status Notifikasi Pengingat</label><div class="toggle-wrapper"><input type="checkbox" id="setWaEnabled" /><label for="setWaEnabled">Aktifkan pengiriman WhatsApp</label></div></div>
           </div>
-          <!-- ====== BARU: Notifikasi Follow Up ====== -->
           <div class="form-row" style="margin-top:16px; padding-top:16px; border-top:1px dashed #e2e8f0;">
-            <div class="form-group">
-              <label>Nomor WA untuk Notifikasi Follow Up</label>
-              <input type="text" id="setWaFollowupNumber" placeholder="Kosongkan = pakai nomor di atas" />
-              <div class="hint">Nomor yang akan menerima notifikasi saat ada follow up baru</div>
-            </div>
-            <div class="form-group">
-              <label>Notifikasi Follow Up Otomatis</label>
-              <div class="toggle-wrapper">
-                <input type="checkbox" id="setWaFollowupEnabled" />
-                <label for="setWaFollowupEnabled">Kirim WA saat follow up baru dibuat</label>
-              </div>
-            </div>
+            <div class="form-group"><label>Nomor WA untuk Notifikasi Follow Up</label><input type="text" id="setWaFollowupNumber" placeholder="Kosongkan = pakai nomor di atas" /><div class="hint">Nomor yang akan menerima notifikasi saat ada follow up baru</div></div>
+            <div class="form-group"><label>Notifikasi Follow Up Otomatis</label><div class="toggle-wrapper"><input type="checkbox" id="setWaFollowupEnabled" /><label for="setWaFollowupEnabled">Kirim WA saat follow up baru dibuat</label></div></div>
           </div>
           <div class="settings-actions">
             <button class="btn-settings save" onclick="savePengaturanHandler()"><i class="fas fa-save"></i> Simpan Pengaturan</button>
@@ -502,7 +522,7 @@
     </div>
   </main>
 
-  <!-- MODAL AKTIVITAS -->
+  <!-- ============ MODAL AKTIVITAS ============ -->
   <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
     <div class="modal">
       <h3 id="modalTitle"><i class="fas fa-plus-circle" style="color:#60a5fa;margin-right:8px;"></i> Tambah Aktivitas</h3>
@@ -529,7 +549,7 @@
     </div>
   </div>
 
-  <!-- MODAL TUGAS BULANAN -->
+  <!-- ============ MODAL TUGAS BULANAN ============ -->
   <div class="modal-overlay" id="modalTaskOverlay" onclick="if(event.target===this) closeTaskModal()">
     <div class="modal">
       <h3><i class="fas fa-plus-circle" style="color:#f59e0b;margin-right:8px;"></i> Tambah Tugas Bulanan</h3>
@@ -556,7 +576,7 @@
     </div>
   </div>
 
-  <!-- MODAL PENGINGAT -->
+  <!-- ============ MODAL PENGINGAT ============ -->
   <div class="modal-overlay" id="modalPengingatOverlay" onclick="if(event.target===this) closePengingatModal()">
     <div class="modal">
       <h3 id="pengingatModalTitle"><i class="fas fa-plus-circle" style="color:#f59e0b;margin-right:8px;"></i> Tambah Kegiatan Pengingat</h3>
@@ -582,28 +602,18 @@
     </div>
   </div>
 
-  <!-- MODAL FOLLOW UP -->
+  <!-- ============ MODAL FOLLOW UP ============ -->
   <div class="modal-overlay" id="modalFollowupOverlay" onclick="if(event.target===this) closeFollowupModal()">
     <div class="modal modal-lg">
       <h3 id="followupModalTitle"><i class="fas fa-plus-circle" style="color:#8b5cf6;margin-right:8px;"></i> Tambah Follow Up</h3>
       <p class="sub">Catat informasi masuk dan tindak lanjutnya</p>
       <form id="followupForm" onsubmit="saveFollowup(event)">
         <input type="hidden" id="followupId">
-        <div class="form-group">
-          <label>Judul <span class="req">*</span></label>
-          <input type="text" id="fuTitle" placeholder="Contoh: Laporan Obat Rabies" required />
-        </div>
-        <div class="form-group">
-          <label>Isi Informasi / Perintah</label>
-          <textarea id="fuDesc" placeholder="Detail informasi yang diterima..."></textarea>
-        </div>
+        <div class="form-group"><label>Judul <span class="req">*</span></label><input type="text" id="fuTitle" placeholder="Contoh: Laporan Obat Rabies" required /></div>
+        <div class="form-group"><label>Isi Informasi / Perintah</label><textarea id="fuDesc" placeholder="Detail informasi yang diterima..."></textarea></div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Sumber Informasi</label>
-            <input type="text" id="fuSource" placeholder="Contoh: Dinas Kesehatan" />
-          </div>
-          <div class="form-group">
-            <label>Jenis Sumber</label>
+          <div class="form-group"><label>Sumber Informasi</label><input type="text" id="fuSource" placeholder="Contoh: Dinas Kesehatan" /></div>
+          <div class="form-group"><label>Jenis Sumber</label>
             <select id="fuSourceType">
               <option value="dinkes">🏥 Dinas Kesehatan</option>
               <option value="atasan">👔 Atasan</option>
@@ -613,22 +623,12 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Tanggal & Jam Diterima <span class="req">*</span></label>
-            <input type="datetime-local" id="fuReceivedDate" required />
-        </div>
-          <div class="form-group">
-            <label>Deadline (opsional)</label>
-            <input type="date" id="fuDeadline" />
-          </div>
+          <div class="form-group"><label>Tanggal Diterima <span class="req">*</span></label><input type="date" id="fuReceivedDate" required /></div>
+          <div class="form-group"><label>Deadline (opsional)</label><input type="date" id="fuDeadline" /></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Diteruskan Ke</label>
-            <input type="text" id="fuForwardedTo" placeholder="Contoh: Kepala Instalasi" />
-          </div>
-          <div class="form-group">
-            <label>Prioritas</label>
+          <div class="form-group"><label>Diteruskan Ke</label><input type="text" id="fuForwardedTo" placeholder="Contoh: Kepala Instalasi" /></div>
+          <div class="form-group"><label>Prioritas</label>
             <select id="fuPriority">
               <option value="rendah">🟢 Rendah</option>
               <option value="normal" selected>🟡 Normal</option>
@@ -637,8 +637,7 @@
             </select>
           </div>
         </div>
-        <div class="form-group">
-          <label>Status</label>
+        <div class="form-group"><label>Status</label>
           <select id="fuStatus">
             <option value="baru" selected>⭐ Baru</option>
             <option value="proses">🔄 Proses</option>
@@ -654,7 +653,7 @@
     </div>
   </div>
 
-  <!-- MODAL DETAIL FOLLOW UP -->
+  <!-- ============ MODAL DETAIL FOLLOW UP ============ -->
   <div class="modal-overlay" id="modalFollowupDetailOverlay" onclick="if(event.target===this) closeFollowupDetailModal()">
     <div class="modal modal-lg">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">
@@ -666,19 +665,15 @@
     </div>
   </div>
 
-  <!-- MODAL TAMBAH LOG -->
+  <!-- ============ MODAL LOG ============ -->
   <div class="modal-overlay" id="modalLogOverlay" onclick="if(event.target===this) closeLogModal()">
     <div class="modal">
       <h3><i class="fas fa-plus-circle" style="color:#3b82f6;margin-right:8px;"></i> Tambah Log Follow Up</h3>
       <p class="sub" id="logModalSub">Catat tindakan follow up yang dilakukan</p>
       <form id="logForm" onsubmit="saveLog(event)">
         <input type="hidden" id="logFollowupId">
-        <div class="form-group">
-          <label>Tanggal & Jam Follow Up <span class="req">*</span></label>
-          <input type="datetime-local" id="logDate" required />
-        </div>
-        <div class="form-group">
-          <label>Media Follow Up</label>
+        <div class="form-group"><label>Tanggal & Jam Follow Up <span class="req">*</span></label><input type="datetime-local" id="logDate" required /></div>
+        <div class="form-group"><label>Media Follow Up</label>
           <select id="logMedia">
             <option value="wa">💬 WhatsApp</option>
             <option value="email">📧 Email</option>
@@ -687,10 +682,7 @@
             <option value="lainnya" selected>📌 Lainnya</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Catatan / Hasil</label>
-          <textarea id="logNotes" placeholder="Contoh: Sudah dikirim ke Pak Budi via WA..."></textarea>
-        </div>
+        <div class="form-group"><label>Catatan / Hasil</label><textarea id="logNotes" placeholder="Contoh: Sudah dikirim ke Pak Budi via WA..."></textarea></div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" onclick="closeLogModal()">Batal</button>
           <button type="submit" class="btn-save" style="background:#3b82f6;"><i class="fas fa-save"></i> Simpan</button>
@@ -699,14 +691,57 @@
     </div>
   </div>
 
+  <!-- ============ MODAL STAFF ============ -->
+  <div class="modal-overlay" id="modalStaffOverlay" onclick="if(event.target===this) closeStaffModal()">
+    <div class="modal">
+      <h3 id="staffModalTitle"><i class="fas fa-user-plus" style="color:#06b6d4;margin-right:8px;"></i> Tambah Staff</h3>
+      <p class="sub">Isi data staff untuk master data</p>
+      <form id="staffForm" onsubmit="saveStaff(event)">
+        <input type="hidden" id="staffId">
+        <div class="form-group"><label>Nama Lengkap <span class="req">*</span></label><input type="text" id="stName" placeholder="Contoh: Budi Santoso" required /></div>
+        <div class="form-row">
+          <div class="form-group"><label>Jenis Kelamin <span class="req">*</span></label>
+            <select id="stGender" required>
+              <option value="">-- Pilih --</option>
+              <option value="L">👨 Laki-laki</option>
+              <option value="P">👩 Perempuan</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Jabatan <span class="req">*</span></label>
+            <select id="stPosition" required>
+              <option value="">-- Pilih --</option>
+              <option value="Apoteker">💊 Apoteker</option>
+              <option value="TTK">💉 TTK (Tenaga Teknis Kefarmasian)</option>
+              <option value="Administrasi">📋 Administrasi</option>
+              <option value="Transporter">🚚 Transporter</option>
+              <option value="Kepala Instalasi">👑 Kepala Instalasi</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Tanggal Lahir</label><input type="date" id="stBirthDate" /><div class="hint">Untuk hitung umur otomatis</div></div>
+          <div class="form-group"><label>Tanggal Pertama Masuk</label><input type="date" id="stJoinDate" /><div class="hint">Untuk hitung masa kerja otomatis</div></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeStaffModal()">Batal</button>
+          <button type="submit" class="btn-save" style="background:#06b6d4;"><i class="fas fa-save"></i> Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Berhasil!</span></div>
 
   <script>
+    // =============================================================
+    //  KONFIGURASI SUPABASE
+    // =============================================================
     const SUPABASE_URL = 'https://gzhnnxuqvarbqgjzfzsa.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aG5ueHVxdmFyYnFnanpmenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0NTM1ODUsImV4cCI6MjEwNTAyOTU4NX0.PpygTx2WFHrAm2-kOtOYonKoEj5bRXwJDlqOZZ2tBkU';
 
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // ===== STATE =====
     let allActivities = [];
     let monthlyTasks = [];
     let monthlyTaskCompletions = {};
@@ -714,15 +749,18 @@
     let pengingatData = [];
     let followupsData = [];
     let followupLogsData = [];
+    let staffData = [];
     let currentMonth = new Date();
     let currentDay = new Date();
     let currentPage = 'dashboard';
     let dailyFilter = 'aktif';
     let followupFilter = 'semua';
+    let staffFilter = 'semua';
 
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => document.querySelectorAll(s);
 
+    // ===== DATE HELPERS =====
     function formatDate(d) { return d.toISOString().split('T')[0]; }
     function formatDateReadable(d) { return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
     function formatDateShort(d) { return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }); }
@@ -738,16 +776,43 @@
     function getDayOfWeek(d) { return d.getDay(); }
     function setDateDisplay() { $('#currentDateDisplay').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
 
+    // ===== HITUNG UMUR & MASA KERJA =====
+    function calcAge(birthDate) {
+      if (!birthDate) return null;
+      const today = new Date();
+      const birth = new Date(birthDate);
+      let years = today.getFullYear() - birth.getFullYear();
+      let months = today.getMonth() - birth.getMonth();
+      let days = today.getDate() - birth.getDate();
+      if (days < 0) { months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
+      if (months < 0) { years--; months += 12; }
+      return { years, months, days };
+    }
+
+    function calcTenure(joinDate) {
+      if (!joinDate) return null;
+      const today = new Date();
+      const join = new Date(joinDate);
+      let years = today.getFullYear() - join.getFullYear();
+      let months = today.getMonth() - join.getMonth();
+      let days = today.getDate() - join.getDate();
+      if (days < 0) { months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
+      if (months < 0) { years--; months += 12; }
+      return { years, months, days };
+    }
+
+    // ===== LOAD DATA =====
     async function loadFromBackend() {
       try {
-        const [actRes, taskRes, compRes, setRes, remRes, fuRes, logRes] = await Promise.all([
+        const [actRes, taskRes, compRes, setRes, remRes, fuRes, logRes, staffRes] = await Promise.all([
           db.from('activities').select('*').order('date', { ascending: false }),
           db.from('monthly_tasks').select('*').order('created_at', { ascending: false }),
           db.from('completions').select('*'),
           db.from('settings').select('*'),
           db.from('reminders').select('*').order('datetime', { ascending: true }),
           db.from('followups').select('*').order('created_at', { ascending: false }),
-          db.from('followup_logs').select('*').order('log_date', { ascending: false })
+          db.from('followup_logs').select('*').order('log_date', { ascending: false }),
+          db.from('staff').select('*').order('name', { ascending: true })
         ]);
 
         if (actRes.error) throw actRes.error;
@@ -757,12 +822,14 @@
         if (remRes.error) throw remRes.error;
         if (fuRes.error) throw fuRes.error;
         if (logRes.error) throw logRes.error;
+        if (staffRes.error) throw staffRes.error;
 
         allActivities = actRes.data || [];
         monthlyTasks = taskRes.data || [];
         pengingatData = remRes.data || [];
         followupsData = fuRes.data || [];
         followupLogsData = logRes.data || [];
+        staffData = staffRes.data || [];
 
         monthlyTaskCompletions = {};
         (compRes.data || []).forEach(c => {
@@ -787,11 +854,13 @@
       renderTimeline();
       renderMonthlyTasks();
       renderFollowup();
+      renderStaff();
       renderPengaturan();
       renderPengingat();
       updateBadges();
     }
 
+    // ===== DASHBOARD =====
     function renderDashboard() {
       const now = new Date();
       const monthStart = startOfMonth(now), monthEnd = endOfMonth(now);
@@ -815,6 +884,7 @@
       $('#followupActiveCount').textContent = activeFollowups.length;
       $('#followupUrgentCount').textContent = urgentFollowups.length;
       $('#followupDoneMonth').textContent = doneMonth;
+      $('#totalStaffCount').textContent = staffData.length;
 
       const fuList = $('#dashboardFollowupList');
       const topFollowups = activeFollowups.sort((a,b) => {
@@ -884,6 +954,7 @@
       container.innerHTML = html;
     }
 
+    // ===== KALENDER =====
     function renderMonthly() {
       $('#monthLabel').textContent = formatMonthYear(currentMonth);
       const grid = $('#monthGrid');
@@ -912,6 +983,7 @@
     function goTodayMonth() { currentMonth = new Date(); renderMonthly(); }
     function goToDay(day) { currentDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day); navigateTo('daily'); renderDaily(); }
 
+    // ===== TUGAS BULANAN =====
     function getPendingTasksForMonth(date) {
       const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
       return monthlyTasks.filter(task => {
@@ -1012,6 +1084,7 @@
       loadFromBackend();
     }
 
+    // ===== HARIAN =====
     function setDailyFilter(mode) {
       dailyFilter = mode;
       $('#btnFilterAktif').classList.toggle('active', mode === 'aktif');
@@ -1099,6 +1172,7 @@
     function changeDay(delta) { currentDay.setDate(currentDay.getDate() + delta); renderDaily(); }
     function goTodayDay() { currentDay = new Date(); renderDaily(); }
 
+    // ===== FOLLOW UP =====
     function getStatusLabel(status) {
       const labels = { 'baru': '⭐ Baru', 'proses': '🔄 Proses', 'menunggu': '⏳ Menunggu', 'selesai': '✅ Selesai' };
       return labels[status] || status;
@@ -1172,10 +1246,7 @@
         return `
           <div class="followup-card priority-${f.priority} ${f.status === 'selesai' ? 'status-selesai' : ''}">
             <div class="followup-card-header">
-              <div class="followup-card-title">
-                <span class="priority-icon">${getPriorityIcon(f.priority)}</span>
-                ${escHtml(f.title)}
-              </div>
+              <div class="followup-card-title"><span class="priority-icon">${getPriorityIcon(f.priority)}</span>${escHtml(f.title)}</div>
               <div class="followup-card-badges">
                 <span class="followup-badge status-${f.status}">${getStatusLabel(f.status)}</span>
                 <span class="followup-badge priority-${f.priority}">${f.priority}</span>
@@ -1183,7 +1254,7 @@
             </div>
             <div class="followup-info">
               <span><i class="fas fa-inbox"></i> ${getSourceLabel(f.source_type)}${f.source ? ': ' + escHtml(f.source) : ''}</span>
-              <span><i class="fas fa-calendar-plus"></i> ${formatDateShort(receivedDate)} • ${formatTime(receivedDate)}</span>
+              <span><i class="fas fa-calendar-plus"></i> ${formatDateShort(receivedDate)}</span>
               ${f.forwarded_to ? `<span><i class="fas fa-share"></i> → ${escHtml(f.forwarded_to)}</span>` : ''}
               ${f.deadline ? `<span><i class="fas fa-hourglass-end"></i> ${formatDateShort(new Date(f.deadline))}</span>` : ''}
               ${deadlineInfo ? `<span>${deadlineInfo}</span>` : ''}
@@ -1210,9 +1281,7 @@
       $('#fuDesc').value = '';
       $('#fuSource').value = '';
       $('#fuSourceType').value = 'lainnya';
-      const now = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      $('#fuReceivedDate').value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      $('#fuReceivedDate').value = formatDate(new Date());
       $('#fuDeadline').value = '';
       $('#fuForwardedTo').value = '';
       $('#fuPriority').value = 'normal';
@@ -1230,11 +1299,7 @@
       $('#fuDesc').value = f.description || '';
       $('#fuSource').value = f.source || '';
       $('#fuSourceType').value = f.source_type || 'lainnya';
-      if (f.received_date) {
-      const dt = new Date(f.received_date);
-      const pad = n => String(n).padStart(2, '0');
-      $('#fuReceivedDate').value = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
-    }
+      $('#fuReceivedDate').value = f.received_date;
       $('#fuDeadline').value = f.deadline || '';
       $('#fuForwardedTo').value = f.forwarded_to || '';
       $('#fuPriority').value = f.priority || 'normal';
@@ -1242,7 +1307,6 @@
       $('#modalFollowupOverlay').classList.add('open');
     }
 
-    // ============ SIMPAN FOLLOW UP + KIRIM NOTIF ============
     async function saveFollowup(e) {
       e.preventDefault();
       const id = $('#followupId').value;
@@ -1251,7 +1315,7 @@
         description: $('#fuDesc').value.trim(),
         source: $('#fuSource').value.trim(),
         source_type: $('#fuSourceType').value,
-        received_date: new Date($('#fuReceivedDate').value).toISOString(),
+        received_date: $('#fuReceivedDate').value,
         deadline: $('#fuDeadline').value || null,
         forwarded_to: $('#fuForwardedTo').value.trim(),
         priority: $('#fuPriority').value,
@@ -1260,55 +1324,36 @@
       if (!data.title || !data.received_date) { showToast('Judul dan tanggal wajib diisi.', 'error'); return; }
 
       if (id) {
-        // Mode EDIT — tidak kirim notif
         if (data.status === 'selesai') data.completed_at = new Date().toISOString();
         else data.completed_at = null;
         const { error } = await db.from('followups').update(data).eq('id', id);
         if (error) { showToast('Error: ' + error.message, 'error'); return; }
         showToast('Follow up diperbarui!', 'success');
       } else {
-        // Mode TAMBAH BARU
         data.id = 'f' + Date.now() + Math.random().toString(36).substr(2, 4);
         const { error } = await db.from('followups').insert([data]);
         if (error) { showToast('Error: ' + error.message, 'error'); return; }
-
-        // Kirim notifikasi WA otomatis (kalau diaktifkan)
         if (String(pengaturanData.wa_followup_enabled) === 'true') {
           kirimNotifFollowup(data);
         }
-
         showToast('Follow up ditambahkan!', 'success');
       }
       closeFollowupModal();
       loadFromBackend();
     }
 
-    // ============ FUNGSI BARU: KIRIM NOTIF FOLLOW UP ============
     async function kirimNotifFollowup(followupData) {
       try {
         const { data, error } = await db.functions.invoke('send-reminders', {
           body: { action: 'notifyFollowup', followup: followupData }
         });
-        if (error) {
-          console.error('Notif error:', error);
-          showToast('Follow up tersimpan, tapi notif WA gagal dikirim.', 'error');
-        } else if (data && data.status === 'success') {
-          showToast('📤 Notifikasi WA terkirim ke atasan.', 'success');
-        } else if (data && data.status === 'disabled') {
-          console.log('Notif follow up dinonaktifkan');
-        } else if (data && data.status === 'error') {
-          showToast('Notif WA: ' + (data.message || 'gagal'), 'error');
-        }
-      } catch (e) {
-        console.error('Notif error:', e);
-        showToast('Follow up tersimpan, tapi notif WA gagal.', 'error');
-      }
+        if (error) { console.error('Notif error:', error); }
+        else if (data && data.status === 'success') { showToast('📤 Notifikasi WA terkirim ke atasan.', 'success'); }
+      } catch (e) { console.error('Notif error:', e); }
     }
 
     async function markFollowupDone(id) {
-      const { error } = await db.from('followups').update({
-        status: 'selesai', completed_at: new Date().toISOString()
-      }).eq('id', id);
+      const { error } = await db.from('followups').update({ status: 'selesai', completed_at: new Date().toISOString() }).eq('id', id);
       if (error) { showToast('Error: ' + error.message, 'error'); return; }
       showToast('✅ Follow up selesai!', 'success');
       loadFromBackend();
@@ -1316,9 +1361,7 @@
 
     async function reopenFollowup(id) {
       if (!confirm('Buka kembali follow up ini?')) return;
-      const { error } = await db.from('followups').update({
-        status: 'proses', completed_at: null
-      }).eq('id', id);
+      const { error } = await db.from('followups').update({ status: 'proses', completed_at: null }).eq('id', id);
       if (error) { showToast('Error: ' + error.message, 'error'); return; }
       showToast('Follow up dibuka kembali.', 'success');
       loadFromBackend();
@@ -1344,7 +1387,7 @@
         <div class="detail-section">
           <div class="detail-section-title">Informasi</div>
           <div class="detail-row"><span class="label">Sumber</span><span class="value">${getSourceLabel(f.source_type)}${f.source ? ' — ' + escHtml(f.source) : ''}</span></div>
-          <div class="detail-row"><span class="label">Tanggal Diterima</span><span class="value">${formatDateReadable(new Date(f.received_date))} • ${formatTime(new Date(f.received_date))}</span></div>
+          <div class="detail-row"><span class="label">Tanggal Diterima</span><span class="value">${formatDateReadable(new Date(f.received_date))}</span></div>
           ${f.forwarded_to ? `<div class="detail-row"><span class="label">Diteruskan Ke</span><span class="value">${escHtml(f.forwarded_to)}</span></div>` : ''}
           ${f.deadline ? `<div class="detail-row"><span class="label">Deadline</span><span class="value">${formatDateReadable(new Date(f.deadline))}</span></div>` : ''}
           ${f.completed_at ? `<div class="detail-row"><span class="label">Selesai Pada</span><span class="value">${formatDateReadable(new Date(f.completed_at))}</span></div>` : ''}
@@ -1352,48 +1395,23 @@
       `;
 
       if (f.description) {
-        html += `
-          <div class="detail-section">
-            <div class="detail-section-title">Isi Informasi</div>
-            <div class="detail-desc">${escHtml(f.description).replace(/\n/g, '<br>')}</div>
-          </div>
-        `;
+        html += `<div class="detail-section"><div class="detail-section-title">Isi Informasi</div><div class="detail-desc">${escHtml(f.description).replace(/\n/g, '<br>')}</div></div>`;
       }
 
-      html += `
-        <div class="detail-section">
-          <div class="detail-section-title">Riwayat Follow Up (${logs.length})</div>
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-            <button class="btn-primary" onclick="closeFollowupDetailModal(); openAddLogModal('${f.id}');" style="background:#3b82f6;font-size:12px;padding:6px 14px;"><i class="fas fa-plus"></i> Tambah Log</button>
-          </div>
-      `;
+      html += `<div class="detail-section"><div class="detail-section-title">Riwayat Follow Up (${logs.length})</div><div style="display:flex;justify-content:flex-end;margin-bottom:8px;"><button class="btn-primary" onclick="closeFollowupDetailModal(); openAddLogModal('${f.id}');" style="background:#3b82f6;font-size:12px;padding:6px 14px;"><i class="fas fa-plus"></i> Tambah Log</button></div>`;
 
       if (logs.length === 0) {
-        html += `<div style="text-align:center;padding:20px;color:#94a3b8;font-size:13px;">Belum ada log follow up. Klik "Tambah Log" untuk memulai.</div>`;
+        html += `<div style="text-align:center;padding:20px;color:#94a3b8;font-size:13px;">Belum ada log follow up.</div>`;
       } else {
         html += `<div class="log-timeline">`;
         logs.forEach(l => {
-          html += `
-            <div class="log-item">
-              <div class="log-header">
-                <span class="log-date">${formatDateReadable(new Date(l.log_date))} • ${formatTime(new Date(l.log_date))}</span>
-                <span class="log-media ${l.media}">${getMediaLabel(l.media)}</span>
-                <button class="log-delete" onclick="deleteLog(${l.id})" title="Hapus log"><i class="fas fa-trash"></i></button>
-              </div>
-              ${l.notes ? `<div class="log-notes">${escHtml(l.notes).replace(/\n/g, '<br>')}</div>` : ''}
-            </div>
-          `;
+          html += `<div class="log-item"><div class="log-header"><span class="log-date">${formatDateReadable(new Date(l.log_date))} • ${formatTime(new Date(l.log_date))}</span><span class="log-media ${l.media}">${getMediaLabel(l.media)}</span><button class="log-delete" onclick="deleteLog(${l.id})" title="Hapus log"><i class="fas fa-trash"></i></button></div>${l.notes ? `<div class="log-notes">${escHtml(l.notes).replace(/\n/g, '<br>')}</div>` : ''}</div>`;
         });
         html += `</div>`;
       }
       html += `</div>`;
 
-      html += `
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeFollowupDetailModal()">Tutup</button>
-          ${f.status !== 'selesai' ? `<button class="btn-save" style="background:#10b981;" onclick="markFollowupDone('${f.id}'); closeFollowupDetailModal();"><i class="fas fa-check"></i> Tandai Selesai</button>` : ''}
-        </div>
-      `;
+      html += `<div class="modal-actions"><button type="button" class="btn-secondary" onclick="closeFollowupDetailModal()">Tutup</button>${f.status !== 'selesai' ? `<button class="btn-save" style="background:#10b981;" onclick="markFollowupDone('${f.id}'); closeFollowupDetailModal();"><i class="fas fa-check"></i> Tandai Selesai</button>` : ''}</div>`;
 
       $('#fuDetailContent').innerHTML = html;
       $('#modalFollowupDetailOverlay').classList.add('open');
@@ -1448,6 +1466,182 @@
       loadFromBackend();
     }
 
+    // ===== STAFF =====
+    function setStaffFilter(mode) {
+      staffFilter = mode;
+      ['Semua','Apoteker','TTK','Administrasi','Transporter','Kepala'].forEach(k => {
+        const el = document.getElementById('stFilter' + k);
+        if (el) el.classList.remove('active');
+      });
+      const activeId = {
+        'semua':'stFilterSemua', 'Apoteker':'stFilterApoteker', 'TTK':'stFilterTTK',
+        'Administrasi':'stFilterAdministrasi', 'Transporter':'stFilterTransporter', 'Kepala Instalasi':'stFilterKepala'
+      }[mode];
+      if (activeId) document.getElementById(activeId).classList.add('active');
+      renderStaff();
+    }
+
+    function renderStaff() {
+      const list = $('#staffList');
+      const summary = $('#staffSummary');
+      // Count badges
+      $('#stCntSemua').textContent = staffData.length;
+      $('#stCntApoteker').textContent = staffData.filter(s => s.position === 'Apoteker').length;
+      $('#stCntTTK').textContent = staffData.filter(s => s.position === 'TTK').length;
+      $('#stCntAdministrasi').textContent = staffData.filter(s => s.position === 'Administrasi').length;
+      $('#stCntTransporter').textContent = staffData.filter(s => s.position === 'Transporter').length;
+      $('#stCntKepala').textContent = staffData.filter(s => s.position === 'Kepala Instalasi').length;
+
+      // Summary cards
+      const totalL = staffData.filter(s => s.gender === 'L').length;
+      const totalP = staffData.filter(s => s.gender === 'P').length;
+      summary.innerHTML = `
+        <div class="staff-summary-item"><span class="icon">👥</span><div class="info"><div class="num">${staffData.length}</div><div class="label">Total Staff</div></div></div>
+        <div class="staff-summary-item"><span class="icon">👨</span><div class="info"><div class="num">${totalL}</div><div class="label">Laki-laki</div></div></div>
+        <div class="staff-summary-item"><span class="icon">👩</span><div class="info"><div class="num">${totalP}</div><div class="label">Perempuan</div></div></div>
+      `;
+
+      // Filter
+      let filtered = staffData;
+      if (staffFilter !== 'semua') filtered = staffData.filter(s => s.position === staffFilter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="staff-empty" style="grid-column:1/-1;"><i class="fas fa-users"></i><p>Belum ada data staff</p><small>Klik "Tambah Staff" untuk memulai</small></div>`;
+        return;
+      }
+
+      const positionClassMap = {
+        'Apoteker': 'pos-apoteker',
+        'TTK': 'pos-ttk',
+        'Administrasi': 'pos-administrasi',
+        'Transporter': 'pos-transporter',
+        'Kepala Instalasi': 'pos-kepala'
+      };
+      const positionShortMap = {
+        'Apoteker': 'Apoteker',
+        'TTK': 'TTK',
+        'Administrasi': 'Administrasi',
+        'Transporter': 'Transporter',
+        'Kepala Instalasi': 'Kepala Instalasi'
+      };
+
+      list.innerHTML = filtered.map(s => {
+        const age = calcAge(s.birth_date);
+        const tenure = calcTenure(s.join_date);
+        const initial = s.name ? s.name.charAt(0).toUpperCase() : '?';
+        const posCls = positionClassMap[s.position] || '';
+
+        let ageStr = '—';
+        if (age) {
+          ageStr = `${age.years} tahun`;
+          if (age.months > 0) ageStr += ` ${age.months} bln`;
+        }
+
+        let tenureStr = '—';
+        if (tenure) {
+          tenureStr = `${tenure.years} tahun`;
+          if (tenure.months > 0) tenureStr += ` ${tenure.months} bln`;
+        }
+
+        return `
+          <div class="staff-card ${posCls}">
+            <div class="staff-card-header">
+              <div class="staff-avatar ${s.gender || 'L'}">${initial}</div>
+              <div class="staff-name-block">
+                <div class="staff-name">${escHtml(s.name)}</div>
+                <span class="staff-position-badge ${posCls}">${positionShortMap[s.position] || s.position}</span>
+              </div>
+            </div>
+            <div class="staff-info-grid">
+              <div class="staff-info-item">
+                <span class="label"><i class="fas fa-birthday-cake"></i> Tanggal Lahir</span>
+                <span class="value">${s.birth_date ? formatDateShort(new Date(s.birth_date)) : '—'}</span>
+              </div>
+              <div class="staff-info-item">
+                <span class="label"><i class="fas fa-user-clock"></i> Umur</span>
+                <span class="value highlight">${ageStr}</span>
+              </div>
+              <div class="staff-info-item">
+                <span class="label"><i class="fas fa-calendar-plus"></i> Tgl Masuk</span>
+                <span class="value">${s.join_date ? formatDateShort(new Date(s.join_date)) : '—'}</span>
+              </div>
+              <div class="staff-info-item">
+                <span class="label"><i class="fas fa-briefcase"></i> Masa Kerja</span>
+                <span class="value highlight">${tenureStr}</span>
+              </div>
+            </div>
+            <div class="staff-actions">
+              <button class="btn-edit-staff" onclick="editStaff('${s.id}')"><i class="fas fa-pen"></i> Edit</button>
+              <button class="btn-del-staff" onclick="deleteStaff('${s.id}')"><i class="fas fa-trash"></i> Hapus</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openAddStaffModal() {
+      $('#staffId').value = '';
+      $('#staffModalTitle').innerHTML = '<i class="fas fa-user-plus" style="color:#06b6d4;margin-right:8px;"></i> Tambah Staff';
+      $('#stName').value = '';
+      $('#stGender').value = '';
+      $('#stPosition').value = '';
+      $('#stBirthDate').value = '';
+      $('#stJoinDate').value = '';
+      $('#modalStaffOverlay').classList.add('open');
+    }
+    function closeStaffModal() { $('#modalStaffOverlay').classList.remove('open'); }
+
+    function editStaff(id) {
+      const s = staffData.find(x => x.id === id);
+      if (!s) return;
+      $('#staffId').value = s.id;
+      $('#staffModalTitle').innerHTML = '<i class="fas fa-user-edit" style="color:#06b6d4;margin-right:8px;"></i> Edit Staff';
+      $('#stName').value = s.name;
+      $('#stGender').value = s.gender || '';
+      $('#stPosition').value = s.position || '';
+      $('#stBirthDate').value = s.birth_date || '';
+      $('#stJoinDate').value = s.join_date || '';
+      $('#modalStaffOverlay').classList.add('open');
+    }
+
+    async function saveStaff(e) {
+      e.preventDefault();
+      const id = $('#staffId').value;
+      const data = {
+        name: $('#stName').value.trim(),
+        gender: $('#stGender').value,
+        position: $('#stPosition').value,
+        birth_date: $('#stBirthDate').value || null,
+        join_date: $('#stJoinDate').value || null
+      };
+      if (!data.name || !data.gender || !data.position) {
+        showToast('Nama, jenis kelamin, dan jabatan wajib diisi.', 'error');
+        return;
+      }
+
+      if (id) {
+        const { error } = await db.from('staff').update(data).eq('id', id);
+        if (error) { showToast('Error: ' + error.message, 'error'); return; }
+        showToast('Data staff diperbarui!', 'success');
+      } else {
+        data.id = 's' + Date.now() + Math.random().toString(36).substr(2, 4);
+        const { error } = await db.from('staff').insert([data]);
+        if (error) { showToast('Error: ' + error.message, 'error'); return; }
+        showToast('Data staff ditambahkan!', 'success');
+      }
+      closeStaffModal();
+      loadFromBackend();
+    }
+
+    async function deleteStaff(id) {
+      if (!confirm('Yakin hapus data staff ini?')) return;
+      const { error } = await db.from('staff').delete().eq('id', id);
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Data staff dihapus.', 'success');
+      loadFromBackend();
+    }
+
+    // ===== TIMELINE =====
     function renderTimeline() {
       const container = $('#timelineContainer');
       if (allActivities.length === 0) {
@@ -1476,6 +1670,7 @@
     }
     function refreshTimeline() { loadFromBackend(); showToast('Data diperbarui!', 'success'); }
 
+    // ===== CRUD AKTIVITAS =====
     function openAddModal() {
       $('#editId').value = '';
       $('#formTitle').value = '';
@@ -1528,6 +1723,7 @@
       loadFromBackend();
     }
 
+    // ===== PENGATURAN =====
     function renderPengaturan() {
       $('#setWaNumber').value = pengaturanData.wa_number || '';
       $('#setEmailBackup').value = pengaturanData.email_backup || '';
@@ -1668,6 +1864,7 @@
       loadFromBackend();
     }
 
+    // ===== NAVIGASI =====
     function navigateTo(page) {
       currentPage = page;
       $$('.sidebar-nav a').forEach(el => el.classList.remove('active'));
@@ -1676,8 +1873,8 @@
       $$('.page-section').forEach(el => el.classList.remove('active'));
       const section = document.getElementById(`page-${page}`);
       if (section) section.classList.add('active');
-      const titles = { dashboard:'Dashboard', monthly:'Kalender', monthlytasks:'Tugas Bulanan', daily:'Harian', followup:'Follow Up', timeline:'Timeline', pengaturan:'Pengaturan' };
-      const icons = { dashboard:'fa-th-large', monthly:'fa-calendar-alt', monthlytasks:'fa-tasks', daily:'fa-calendar-day', followup:'fa-share-square', timeline:'fa-clock', pengaturan:'fa-cog' };
+      const titles = { dashboard:'Dashboard', monthly:'Kalender', monthlytasks:'Tugas Bulanan', daily:'Harian', followup:'Follow Up', staff:'Data Staff', timeline:'Timeline', pengaturan:'Pengaturan' };
+      const icons = { dashboard:'fa-th-large', monthly:'fa-calendar-alt', monthlytasks:'fa-tasks', daily:'fa-calendar-day', followup:'fa-share-square', staff:'fa-users', timeline:'fa-clock', pengaturan:'fa-cog' };
       $('#pageTitle').innerHTML = `<i class="fas ${icons[page]}"></i> ${titles[page]}`;
       if (window.innerWidth <= 768) toggleSidebar(false);
       if (page === 'dashboard') renderDashboard();
@@ -1685,6 +1882,7 @@
       if (page === 'monthlytasks') renderMonthlyTasks();
       if (page === 'daily') renderDaily();
       if (page === 'followup') renderFollowup();
+      if (page === 'staff') renderStaff();
       if (page === 'timeline') renderTimeline();
       if (page === 'pengaturan') { renderPengaturan(); renderPengingat(); }
     }
@@ -1700,6 +1898,7 @@
       badgeFU.textContent = activeFU;
       const hasUrgent = followupsData.some(f => f.priority === 'urgent' && f.status !== 'selesai');
       badgeFU.className = hasUrgent ? 'badge urgent' : 'badge';
+      $('#staffBadge').textContent = staffData.length;
     }
 
     function toggleSidebar(force) {
@@ -1722,7 +1921,7 @@
     function escHtml(str) { if (!str) return ''; const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { closeModal(); closeTaskModal(); closePengingatModal(); closeFollowupModal(); closeFollowupDetailModal(); closeLogModal(); }
+      if (e.key === 'Escape') { closeModal(); closeTaskModal(); closePengingatModal(); closeFollowupModal(); closeFollowupDetailModal(); closeLogModal(); closeStaffModal(); }
     });
     window.addEventListener('resize', () => { if (window.innerWidth > 768) toggleSidebar(false); });
 
@@ -1731,7 +1930,7 @@
       loadFromBackend();
     });
 
-    console.log('📋 Logbook v1.4 + Notif Follow Up siap!');
+    console.log('📋 Logbook v1.5 + Master Data Staff siap!');
   </script>
 </body>
 </html>
