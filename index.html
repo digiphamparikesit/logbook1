@@ -59,8 +59,6 @@
     .stat-card.followup-stat .stat-icon { color: #8b5cf6; }
     .stat-card.urgent-stat { border-left: 4px solid #ef4444; }
     .stat-card.urgent-stat .stat-icon { color: #ef4444; }
-    .stat-card.staff-stat { border-left: 4px solid #06b6d4; }
-    .stat-card.staff-stat .stat-icon { color: #06b6d4; }
 
     .recent-activities { background: #fff; border-radius: 16px; padding: 24px 28px; border: 1px solid #e9edf2; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
     .recent-activities h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #0f172a; }
@@ -237,42 +235,6 @@
     .log-item .log-delete { background: none; border: none; color: #cbd5e1; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
     .log-item .log-delete:hover { background: #fee2e2; color: #ef4444; }
 
-    /* ===== STAFF ===== */
-    .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
-    .staff-card { background: #fff; border-radius: 14px; padding: 18px 20px; border: 1px solid #e9edf2; border-left: 4px solid #06b6d4; transition: all 0.2s; position: relative; }
-    .staff-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
-    .staff-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
-    .staff-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px; color: #fff; flex-shrink: 0; background: linear-gradient(135deg, #06b6d4, #0e7490); }
-    .staff-name-block { flex: 1; min-width: 0; }
-    .staff-name { font-weight: 700; font-size: 15px; color: #0f172a; line-height: 1.3; word-break: break-word; }
-    .staff-nip { font-size: 11px; color: #94a3b8; margin-top: 2px; font-family: 'Courier New', monospace; }
-    .staff-position-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 6px; background: #cffafe; color: #0e7490; text-transform: uppercase; letter-spacing: 0.3px; }
-    .staff-dept { font-size: 12px; color: #64748b; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
-    .staff-dept i { color: #94a3b8; }
-    .staff-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
-    .staff-info-item { font-size: 12px; }
-    .staff-info-item .label { color: #94a3b8; font-weight: 500; display: block; margin-bottom: 2px; }
-    .staff-info-item .value { color: #0f172a; font-weight: 600; }
-    .staff-info-item .value.highlight { color: #06b6d4; }
-    .staff-info-item .value i { font-size: 11px; margin-right: 4px; }
-    .staff-info-item .value.empty { color: #cbd5e1; font-weight: 400; font-style: italic; }
-    .staff-email { font-size: 12px; color: #64748b; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; word-break: break-all; }
-    .staff-email i { color: #94a3b8; flex-shrink: 0; }
-    .staff-actions { display: flex; gap: 6px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
-    .staff-actions button { padding: 6px 12px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; background: #f1f5f9; color: #475569; }
-    .staff-actions button:hover { background: #e2e8f0; }
-    .staff-actions .btn-edit-staff:hover { background: #dbeafe; color: #1e40af; }
-    .staff-actions .btn-del-staff:hover { background: #fee2e2; color: #ef4444; }
-    .staff-empty { text-align: center; padding: 60px 20px; color: #94a3b8; background: #fff; border-radius: 16px; border: 1px dashed #d1d9e6; }
-    .staff-empty i { font-size: 56px; color: #cbd5e1; margin-bottom: 16px; display: block; }
-    .staff-empty p { font-size: 16px; font-weight: 500; color: #64748b; margin-bottom: 6px; }
-    .staff-empty small { font-size: 13px; color: #94a3b8; }
-    .staff-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
-    .staff-summary-item { background: #f8fafc; border-radius: 12px; padding: 14px 16px; border: 1px solid #eef2f6; display: flex; align-items: center; gap: 12px; }
-    .staff-summary-item .icon { font-size: 22px; }
-    .staff-summary-item .info .num { font-weight: 700; font-size: 20px; color: #0f172a; line-height: 1; }
-    .staff-summary-item .info .label { font-size: 12px; color: #64748b; margin-top: 2px; }
-
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.open { display: flex; }
     .modal { background: #fff; border-radius: 20px; max-width: 560px; width: 100%; padding: 32px 36px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
@@ -291,6 +253,13 @@
     .modal .modal-actions .btn-secondary:hover { background: #e2e8f0; }
     .modal .modal-actions .btn-save { background: #0f172a; color: #fff; border: none; padding: 8px 24px; border-radius: 30px; font-weight: 600; font-size: 13px; cursor: pointer; }
     .modal .modal-actions .btn-save:hover { background: #1e293b; }
+    .detail-section { margin-bottom: 18px; }
+    .detail-section-title { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-row .label { color: #64748b; font-weight: 500; }
+    .detail-row .value { color: #0f172a; font-weight: 600; text-align: right; max-width: 60%; }
+    .detail-desc { padding: 12px 16px; background: #f8fafc; border-radius: 10px; font-size: 14px; color: #475569; line-height: 1.6; }
 
     .toast { position: fixed; bottom: 30px; right: 30px; background: #0f172a; color: #f8fafc; padding: 14px 24px; border-radius: 14px; font-weight: 500; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 9999; display: none; align-items: center; gap: 12px; max-width: 400px; animation: toastIn 0.3s ease; }
     .toast.show { display: flex; }
@@ -324,7 +293,6 @@
       .followup-card-header { flex-direction: column; align-items: flex-start; }
       .modal .form-row { grid-template-columns: 1fr; }
       .modal { padding: 24px 20px; }
-      .staff-grid { grid-template-columns: 1fr; }
     }
     .sidebar-toggle { display: none; background: none; border: none; font-size: 22px; color: #0f172a; cursor: pointer; padding: 4px 8px; }
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 90; }
@@ -347,8 +315,6 @@
       <a data-page="daily" onclick="navigateTo('daily')"><i class="fas fa-calendar-day"></i> Harian</a>
       <a data-page="followup" onclick="navigateTo('followup')"><i class="fas fa-share-square"></i> Follow Up <span class="badge" id="followupBadge">0</span></a>
       <a data-page="timeline" onclick="navigateTo('timeline')"><i class="fas fa-clock"></i> Timeline</a>
-      <div class="nav-label" style="margin-top:12px;">Master Data</div>
-      <a data-page="staff" onclick="navigateTo('staff')"><i class="fas fa-users"></i> Data Staff <span class="badge" id="staffBadge">0</span></a>
       <div class="nav-label" style="margin-top:12px;">Sistem</div>
       <a data-page="pengaturan" onclick="navigateTo('pengaturan')"><i class="fas fa-cog"></i> Pengaturan</a>
     </nav>
@@ -371,6 +337,7 @@
 
     <div class="content-area" id="contentArea">
 
+      <!-- DASHBOARD -->
       <section class="page-section active" id="page-dashboard">
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-icon"><i class="fas fa-list-ul"></i></div><div class="stat-number" id="totalActivities">0</div><div class="stat-label">Total Aktivitas</div></div>
@@ -382,7 +349,6 @@
           <div class="stat-card followup-stat"><div class="stat-icon"><i class="fas fa-share-square"></i></div><div class="stat-number" id="followupActiveCount">0</div><div class="stat-label">Follow Up Aktif</div></div>
           <div class="stat-card urgent-stat"><div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="stat-number" id="followupUrgentCount">0</div><div class="stat-label">Follow Up Urgent</div></div>
           <div class="stat-card"><div class="stat-icon"><i class="fas fa-check-circle" style="color:#10b981;"></i></div><div class="stat-number" id="followupDoneMonth">0</div><div class="stat-label">Selesai Bulan Ini</div></div>
-          <div class="stat-card staff-stat"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-number" id="totalStaffCount">0</div><div class="stat-label">Total Staff</div></div>
         </div>
         <div class="recent-activities" style="margin-bottom: 24px;">
           <h3><i class="fas fa-share-square" style="color:#8b5cf6;margin-right:8px;"></i> Follow Up Aktif</h3>
@@ -398,6 +364,7 @@
         </div>
       </section>
 
+      <!-- KALENDER -->
       <section class="page-section" id="page-monthly">
         <div class="monthly-controls">
           <div class="month-nav">
@@ -410,6 +377,7 @@
         <div class="month-grid" id="monthGrid"></div>
       </section>
 
+      <!-- TUGAS BULANAN -->
       <section class="page-section" id="page-monthlytasks">
         <div class="monthly-tasks-section">
           <div class="task-header">
@@ -420,6 +388,7 @@
         </div>
       </section>
 
+      <!-- HARIAN -->
       <section class="page-section" id="page-daily">
         <div class="daily-controls">
           <div class="date-nav">
@@ -437,6 +406,7 @@
         <div class="daily-list" id="dailyList"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
       </section>
 
+      <!-- FOLLOW UP -->
       <section class="page-section" id="page-followup">
         <div class="monthly-tasks-section">
           <div class="task-header">
@@ -454,25 +424,7 @@
         </div>
       </section>
 
-      <section class="page-section" id="page-staff">
-        <div class="monthly-tasks-section">
-          <div class="task-header">
-            <h3><i class="fas fa-users" style="color:#06b6d4;margin-right:8px;"></i> Data Staff</h3>
-            <button class="btn-primary" onclick="openAddStaffModal()" style="background:#06b6d4;"><i class="fas fa-user-plus"></i> Tambah Staff</button>
-          </div>
-          <div class="filter-group" style="margin-left:0;margin-bottom:16px;">
-            <button class="filter-btn active" id="stFilterSemua" onclick="setStaffFilter('semua')"><i class="fas fa-list"></i> Semua <span class="count-badge" id="stCntSemua">0</span></button>
-            <button class="filter-btn" id="stFilterTTK" onclick="setStaffFilter('TTK')"><i class="fas fa-pills"></i> TTK <span class="count-badge" id="stCntTTK">0</span></button>
-            <button class="filter-btn" id="stFilterApoteker" onclick="setStaffFilter('Apoteker')"><i class="fas fa-prescription"></i> Apoteker <span class="count-badge" id="stCntApoteker">0</span></button>
-            <button class="filter-btn" id="stFilterStaff" onclick="setStaffFilter('Staff')"><i class="fas fa-user"></i> Staff <span class="count-badge" id="stCntStaff">0</span></button>
-            <button class="filter-btn" id="stFilterKepala" onclick="setStaffFilter('Kepala')"><i class="fas fa-crown"></i> Kepala <span class="count-badge" id="stCntKepala">0</span></button>
-            <button class="filter-btn" id="stFilterKoor" onclick="setStaffFilter('Koor')"><i class="fas fa-user-tie"></i> Koor <span class="count-badge" id="stCntKoor">0</span></button>
-          </div>
-          <div id="staffSummary" class="staff-summary"></div>
-          <div id="staffList" class="staff-grid"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
-        </div>
-      </section>
-
+      <!-- TIMELINE -->
       <section class="page-section" id="page-timeline">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
           <h3 style="font-size:18px;font-weight:600;color:#0f172a;"><i class="fas fa-stream" style="color:#60a5fa;margin-right:8px;"></i> Semua Aktivitas</h3>
@@ -481,6 +433,7 @@
         <div class="timeline-container" id="timelineContainer"><div class="loading-placeholder"><span class="spinner"></span> Memuat...</div></div>
       </section>
 
+      <!-- PENGATURAN -->
       <section class="page-section" id="page-pengaturan">
         <div class="settings-card">
           <h3><i class="fas fa-bell" style="color:#10b981;"></i> Notifikasi WhatsApp</h3>
@@ -663,33 +616,6 @@
     </div>
   </div>
 
-  <!-- MODAL STAFF -->
-  <div class="modal-overlay" id="modalStaffOverlay" onclick="if(event.target===this) closeStaffModal()">
-    <div class="modal">
-      <h3 id="staffModalTitle"><i class="fas fa-user-plus" style="color:#06b6d4;margin-right:8px;"></i> Tambah Staff</h3>
-      <p class="sub">Isi data staff untuk master data</p>
-      <form id="staffForm" onsubmit="saveStaff(event)">
-        <input type="hidden" id="staffNipLama">
-        <div class="form-group">
-          <label>NIP (Nomor Induk Pegawai) <span class="req">*</span></label>
-          <input type="text" id="stNip" placeholder="Contoh: 197112221996032008" required />
-          <div class="hint">NIP akan jadi ID unik staff</div>
-        </div>
-        <div class="form-group"><label>Nama Lengkap <span class="req">*</span></label><input type="text" id="stName" placeholder="Contoh: Budi Santoso, A.Md.Farm" required /></div>
-        <div class="form-row">
-          <div class="form-group"><label>Departemen</label><input type="text" id="stDepartemen" placeholder="Contoh: 8. GUDANG FARMASI" /></div>
-          <div class="form-group"><label>Jabatan <span class="req">*</span></label><input type="text" id="stPosition" placeholder="Contoh: TTK Gudang" required /></div>
-        </div>
-        <div class="form-group"><label>Email (opsional)</label><input type="email" id="stEmail" placeholder="email@contoh.com" /></div>
-        <div class="form-row">
-          <div class="form-group"><label>Tanggal Lahir</label><input type="date" id="stBirthDate" /><div class="hint">Untuk hitung umur otomatis</div></div>
-          <div class="form-group"><label>Tanggal Masuk Kerja</label><input type="date" id="stJoinDate" /><div class="hint">Untuk hitung masa kerja otomatis</div></div>
-        </div>
-        <div class="modal-actions"><button type="button" class="btn-secondary" onclick="closeStaffModal()">Batal</button><button type="submit" class="btn-save" style="background:#06b6d4;"><i class="fas fa-save"></i> Simpan</button></div>
-      </form>
-    </div>
-  </div>
-
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Berhasil!</span></div>
 
   <script>
@@ -705,13 +631,11 @@
     let pengingatData = [];
     let followupsData = [];
     let followupLogsData = [];
-    let staffData = [];
     let currentMonth = new Date();
     let currentDay = new Date();
     let currentPage = 'dashboard';
     let dailyFilter = 'aktif';
     let followupFilter = 'semua';
-    let staffFilter = 'semua';
 
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => document.querySelectorAll(s);
@@ -731,68 +655,46 @@
     function getDayOfWeek(d) { return d.getDay(); }
     function setDateDisplay() { $('#currentDateDisplay').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
 
-    // ===== HITUNG UMUR & MASA KERJA =====
-    function calcAge(birthDate) {
-      if (!birthDate) return null;
-      const today = new Date();
-      const birth = new Date(birthDate);
-      let years = today.getFullYear() - birth.getFullYear();
-      let months = today.getMonth() - birth.getMonth();
-      let days = today.getDate() - birth.getDate();
-      if (days < 0) { months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
-      if (months < 0) { years--; months += 12; }
-      return { years, months, days };
-    }
-
-    function calcTenure(joinDate) {
-      if (!joinDate) return null;
-      const today = new Date();
-      const join = new Date(joinDate);
-      let years = today.getFullYear() - join.getFullYear();
-      let months = today.getMonth() - join.getMonth();
-      let days = today.getDate() - join.getDate();
-      if (days < 0) { months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
-      if (months < 0) { years--; months += 12; }
-      return { years, months, days };
-    }
-
-    // ===== LOAD DATA =====
+    // ===== LOAD DATA (TOLERAN ERROR) =====
     async function loadFromBackend() {
+      async function safeLoad(promise, label, defaultValue = []) {
+        try {
+          const res = await promise;
+          if (res.error) {
+            console.error(`❌ Error loading ${label}:`, res.error.message);
+            return defaultValue;
+          }
+          return res.data || defaultValue;
+        } catch (e) {
+          console.error(`❌ Exception loading ${label}:`, e.message);
+          return defaultValue;
+        }
+      }
+
       try {
-        const [actRes, taskRes, compRes, setRes, remRes, fuRes, logRes, staffRes] = await Promise.all([
-          db.from('activities').select('*').order('date', { ascending: false }),
-          db.from('monthly_tasks').select('*').order('created_at', { ascending: false }),
-          db.from('completions').select('*'),
-          db.from('settings').select('*'),
-          db.from('reminders').select('*').order('datetime', { ascending: true }),
-          db.from('followups').select('*').order('created_at', { ascending: false }),
-          db.from('followup_logs').select('*').order('log_date', { ascending: false }),
-          db.from('staff').select('*').order('nama', { ascending: true })
+        const [activities, tasks, completions, settings, reminders, followups, logs] = await Promise.all([
+          safeLoad(db.from('activities').select('*').order('date', { ascending: false }), 'activities'),
+          safeLoad(db.from('monthly_tasks').select('*').order('created_at', { ascending: false }), 'monthly_tasks'),
+          safeLoad(db.from('completions').select('*'), 'completions'),
+          safeLoad(db.from('settings').select('*'), 'settings'),
+          safeLoad(db.from('reminders').select('*').order('datetime', { ascending: true }), 'reminders'),
+          safeLoad(db.from('followups').select('*').order('created_at', { ascending: false }), 'followups'),
+          safeLoad(db.from('followup_logs').select('*').order('log_date', { ascending: false }), 'followup_logs')
         ]);
 
-        if (actRes.error) throw actRes.error;
-        if (taskRes.error) throw taskRes.error;
-        if (compRes.error) throw compRes.error;
-        if (setRes.error) throw setRes.error;
-        if (remRes.error) throw remRes.error;
-        if (fuRes.error) throw fuRes.error;
-        if (logRes.error) throw logRes.error;
-        if (staffRes.error) throw staffRes.error;
-
-        allActivities = actRes.data || [];
-        monthlyTasks = taskRes.data || [];
-        pengingatData = remRes.data || [];
-        followupsData = fuRes.data || [];
-        followupLogsData = logRes.data || [];
-        staffData = staffRes.data || [];
+        allActivities = activities;
+        monthlyTasks = tasks;
+        pengingatData = reminders;
+        followupsData = followups;
+        followupLogsData = logs;
 
         monthlyTaskCompletions = {};
-        (compRes.data || []).forEach(c => {
+        (completions || []).forEach(c => {
           monthlyTaskCompletions[c.task_id + '_' + c.month_key] = c.completed_date;
         });
 
         pengaturanData = {};
-        (setRes.data || []).forEach(s => { pengaturanData[s.key] = s.value; });
+        (settings || []).forEach(s => { pengaturanData[s.key] = s.value; });
 
         renderAll();
         updateBadges();
@@ -809,7 +711,6 @@
       renderTimeline();
       renderMonthlyTasks();
       renderFollowup();
-      renderStaff();
       renderPengaturan();
       renderPengingat();
       updateBadges();
@@ -838,7 +739,6 @@
       $('#followupActiveCount').textContent = activeFollowups.length;
       $('#followupUrgentCount').textContent = urgentFollowups.length;
       $('#followupDoneMonth').textContent = doneMonth;
-      $('#totalStaffCount').textContent = staffData.length;
 
       const fuList = $('#dashboardFollowupList');
       const topFollowups = activeFollowups.sort((a,b) => {
@@ -1412,203 +1312,6 @@
       loadFromBackend();
     }
 
-    // ===== STAFF (Disesuaikan dengan struktur tabel: nip, nama, departemen, jabatan, email, birth_date, join_date) =====
-    function setStaffFilter(mode) {
-      staffFilter = mode;
-      ['Semua','TTK','Apoteker','Staff','Kepala','Koor'].forEach(k => {
-        const el = document.getElementById('stFilter' + k);
-        if (el) el.classList.remove('active');
-      });
-      const activeId = {
-        'semua':'stFilterSemua', 'TTK':'stFilterTTK', 'Apoteker':'stFilterApoteker',
-        'Staff':'stFilterStaff', 'Kepala':'stFilterKepala', 'Koor':'stFilterKoor'
-      }[mode];
-      if (activeId) document.getElementById(activeId).classList.add('active');
-      renderStaff();
-    }
-
-    // Deteksi kategori jabatan otomatis
-    function getJabatanCategory(jabatan) {
-      if (!jabatan) return 'Lainnya';
-      const j = jabatan.toLowerCase();
-      if (j.includes('kepala') || j.includes('ka.')) return 'Kepala';
-      if (j.includes('koor')) return 'Koor';
-      if (j.startsWith('apt') || j.includes('apoteker')) return 'Apoteker';
-      if (j.includes('ttk')) return 'TTK';
-      if (j.includes('staff')) return 'Staff';
-      return 'Lainnya';
-    }
-
-    function renderStaff() {
-      const list = $('#staffList');
-      const summary = $('#staffSummary');
-
-      // Count badges berdasarkan kategori jabatan
-      const counts = { TTK: 0, Apoteker: 0, Staff: 0, Kepala: 0, Koor: 0 };
-      staffData.forEach(s => {
-        const cat = getJabatanCategory(s.jabatan);
-        if (counts[cat] !== undefined) counts[cat]++;
-      });
-      $('#stCntSemua').textContent = staffData.length;
-      $('#stCntTTK').textContent = counts.TTK;
-      $('#stCntApoteker').textContent = counts.Apoteker;
-      $('#stCntStaff').textContent = counts.Staff;
-      $('#stCntKepala').textContent = counts.Kepala;
-      $('#stCntKoor').textContent = counts.Koor;
-
-      // Summary cards
-      const totalDepartemen = new Set(staffData.map(s => s.departemen).filter(Boolean)).size;
-      summary.innerHTML = `
-        <div class="staff-summary-item"><span class="icon">👥</span><div class="info"><div class="num">${staffData.length}</div><div class="label">Total Staff</div></div></div>
-        <div class="staff-summary-item"><span class="icon">💊</span><div class="info"><div class="num">${counts.TTK}</div><div class="label">TTK</div></div></div>
-        <div class="staff-summary-item"><span class="icon">💉</span><div class="info"><div class="num">${counts.Apoteker}</div><div class="label">Apoteker</div></div></div>
-        <div class="staff-summary-item"><span class="icon">🏢</span><div class="info"><div class="num">${totalDepartemen}</div><div class="label">Departemen</div></div></div>
-      `;
-
-      // Filter
-      let filtered = staffData;
-      if (staffFilter !== 'semua') {
-        filtered = staffData.filter(s => getJabatanCategory(s.jabatan) === staffFilter);
-      }
-
-      if (filtered.length === 0) {
-        list.innerHTML = `<div class="staff-empty" style="grid-column:1/-1;"><i class="fas fa-users"></i><p>Belum ada data staff</p><small>Klik "Tambah Staff" untuk memulai</small></div>`;
-        return;
-      }
-
-      list.innerHTML = filtered.map(s => {
-        const age = calcAge(s.birth_date);
-        const tenure = calcTenure(s.join_date);
-        const initial = s.nama ? s.nama.charAt(0).toUpperCase() : '?';
-
-        let ageStr = '';
-        if (age) {
-          ageStr = `${age.years} tahun`;
-          if (age.months > 0) ageStr += ` ${age.months} bln`;
-        }
-
-        let tenureStr = '';
-        if (tenure) {
-          tenureStr = `${tenure.years} tahun`;
-          if (tenure.months > 0) tenureStr += ` ${tenure.months} bln`;
-        }
-
-        return `
-          <div class="staff-card">
-            <div class="staff-card-header">
-              <div class="staff-avatar">${initial}</div>
-              <div class="staff-name-block">
-                <div class="staff-name">${escHtml(s.nama)}</div>
-                <div class="staff-nip">NIP: ${escHtml(s.nip)}</div>
-                <span class="staff-position-badge">${escHtml(s.jabatan || '—')}</span>
-                ${s.departemen ? `<div class="staff-dept"><i class="fas fa-building"></i> ${escHtml(s.departemen)}</div>` : ''}
-              </div>
-            </div>
-            ${s.email ? `<div class="staff-email"><i class="fas fa-envelope"></i> ${escHtml(s.email)}</div>` : ''}
-            <div class="staff-info-grid">
-              <div class="staff-info-item">
-                <span class="label"><i class="fas fa-birthday-cake"></i> Tgl Lahir</span>
-                <span class="value ${s.birth_date ? '' : 'empty'}">${s.birth_date ? formatDateShort(new Date(s.birth_date)) : 'Belum diisi'}</span>
-              </div>
-              <div class="staff-info-item">
-                <span class="label"><i class="fas fa-user-clock"></i> Umur</span>
-                <span class="value ${ageStr ? 'highlight' : 'empty'}">${ageStr || 'Belum diisi'}</span>
-              </div>
-              <div class="staff-info-item">
-                <span class="label"><i class="fas fa-calendar-plus"></i> Tgl Masuk</span>
-                <span class="value ${s.join_date ? '' : 'empty'}">${s.join_date ? formatDateShort(new Date(s.join_date)) : 'Belum diisi'}</span>
-              </div>
-              <div class="staff-info-item">
-                <span class="label"><i class="fas fa-briefcase"></i> Masa Kerja</span>
-                <span class="value ${tenureStr ? 'highlight' : 'empty'}">${tenureStr || 'Belum diisi'}</span>
-              </div>
-            </div>
-            <div class="staff-actions">
-              <button class="btn-edit-staff" onclick="editStaff('${s.nip}')"><i class="fas fa-pen"></i> Edit</button>
-              <button class="btn-del-staff" onclick="deleteStaff('${s.nip}')"><i class="fas fa-trash"></i> Hapus</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function openAddStaffModal() {
-      $('#staffNipLama').value = '';
-      $('#staffModalTitle').innerHTML = '<i class="fas fa-user-plus" style="color:#06b6d4;margin-right:8px;"></i> Tambah Staff';
-      $('#stNip').value = '';
-      $('#stNip').disabled = false;
-      $('#stName').value = '';
-      $('#stDepartemen').value = '';
-      $('#stPosition').value = '';
-      $('#stEmail').value = '';
-      $('#stBirthDate').value = '';
-      $('#stJoinDate').value = '';
-      $('#modalStaffOverlay').classList.add('open');
-    }
-    function closeStaffModal() { $('#modalStaffOverlay').classList.remove('open'); }
-
-    function editStaff(nip) {
-      const s = staffData.find(x => x.nip === nip);
-      if (!s) return;
-      $('#staffNipLama').value = s.nip;
-      $('#staffModalTitle').innerHTML = '<i class="fas fa-user-edit" style="color:#06b6d4;margin-right:8px;"></i> Edit Staff';
-      $('#stNip').value = s.nip;
-      $('#stNip').disabled = true; // NIP jadi primary key, tidak bisa diubah
-      $('#stName').value = s.nama;
-      $('#stDepartemen').value = s.departemen || '';
-      $('#stPosition').value = s.jabatan || '';
-      $('#stEmail').value = s.email || '';
-      $('#stBirthDate').value = s.birth_date || '';
-      $('#stJoinDate').value = s.join_date || '';
-      $('#modalStaffOverlay').classList.add('open');
-    }
-
-    async function saveStaff(e) {
-      e.preventDefault();
-      const nipLama = $('#staffNipLama').value;
-      const nip = $('#stNip').value.trim();
-      const data = {
-        nip: nip,
-        nama: $('#stName').value.trim(),
-        departemen: $('#stDepartemen').value.trim() || null,
-        jabatan: $('#stPosition').value.trim(),
-        email: $('#stEmail').value.trim() || null,
-        birth_date: $('#stBirthDate').value || null,
-        join_date: $('#stJoinDate').value || null
-      };
-      if (!data.nip || !data.nama || !data.jabatan) {
-        showToast('NIP, Nama, dan Jabatan wajib diisi.', 'error');
-        return;
-      }
-
-      if (nipLama) {
-        // EDIT
-        const { error } = await db.from('staff').update(data).eq('nip', nipLama);
-        if (error) { showToast('Error: ' + error.message, 'error'); return; }
-        showToast('Data staff diperbarui!', 'success');
-      } else {
-        // TAMBAH BARU — cek apakah NIP sudah ada
-        const { data: existing } = await db.from('staff').select('nip').eq('nip', nip).maybeSingle();
-        if (existing) {
-          showToast('NIP sudah terdaftar! Gunakan NIP lain.', 'error');
-          return;
-        }
-        const { error } = await db.from('staff').insert([data]);
-        if (error) { showToast('Error: ' + error.message, 'error'); return; }
-        showToast('Data staff ditambahkan!', 'success');
-      }
-      closeStaffModal();
-      loadFromBackend();
-    }
-
-    async function deleteStaff(nip) {
-      if (!confirm('Yakin hapus data staff ini?')) return;
-      const { error } = await db.from('staff').delete().eq('nip', nip);
-      if (error) { showToast('Error: ' + error.message, 'error'); return; }
-      showToast('Data staff dihapus.', 'success');
-      loadFromBackend();
-    }
-
     function renderTimeline() {
       const container = $('#timelineContainer');
       if (allActivities.length === 0) {
@@ -1837,8 +1540,8 @@
       $$('.page-section').forEach(el => el.classList.remove('active'));
       const section = document.getElementById(`page-${page}`);
       if (section) section.classList.add('active');
-      const titles = { dashboard:'Dashboard', monthly:'Kalender', monthlytasks:'Tugas Bulanan', daily:'Harian', followup:'Follow Up', staff:'Data Staff', timeline:'Timeline', pengaturan:'Pengaturan' };
-      const icons = { dashboard:'fa-th-large', monthly:'fa-calendar-alt', monthlytasks:'fa-tasks', daily:'fa-calendar-day', followup:'fa-share-square', staff:'fa-users', timeline:'fa-clock', pengaturan:'fa-cog' };
+      const titles = { dashboard:'Dashboard', monthly:'Kalender', monthlytasks:'Tugas Bulanan', daily:'Harian', followup:'Follow Up', timeline:'Timeline', pengaturan:'Pengaturan' };
+      const icons = { dashboard:'fa-th-large', monthly:'fa-calendar-alt', monthlytasks:'fa-tasks', daily:'fa-calendar-day', followup:'fa-share-square', timeline:'fa-clock', pengaturan:'fa-cog' };
       $('#pageTitle').innerHTML = `<i class="fas ${icons[page]}"></i> ${titles[page]}`;
       if (window.innerWidth <= 768) toggleSidebar(false);
       if (page === 'dashboard') renderDashboard();
@@ -1846,7 +1549,6 @@
       if (page === 'monthlytasks') renderMonthlyTasks();
       if (page === 'daily') renderDaily();
       if (page === 'followup') renderFollowup();
-      if (page === 'staff') renderStaff();
       if (page === 'timeline') renderTimeline();
       if (page === 'pengaturan') { renderPengaturan(); renderPengingat(); }
     }
@@ -1862,7 +1564,6 @@
       badgeFU.textContent = activeFU;
       const hasUrgent = followupsData.some(f => f.priority === 'urgent' && f.status !== 'selesai');
       badgeFU.className = hasUrgent ? 'badge urgent' : 'badge';
-      $('#staffBadge').textContent = staffData.length;
     }
 
     function toggleSidebar(force) {
@@ -1885,7 +1586,7 @@
     function escHtml(str) { if (!str) return ''; const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { closeModal(); closeTaskModal(); closePengingatModal(); closeFollowupModal(); closeFollowupDetailModal(); closeLogModal(); closeStaffModal(); }
+      if (e.key === 'Escape') { closeModal(); closeTaskModal(); closePengingatModal(); closeFollowupModal(); closeFollowupDetailModal(); closeLogModal(); }
     });
     window.addEventListener('resize', () => { if (window.innerWidth > 768) toggleSidebar(false); });
 
@@ -1894,7 +1595,7 @@
       loadFromBackend();
     });
 
-    console.log('📋 Logbook v1.6 + Data Staff (NIP) siap!');
+    console.log('📋 Logbook v1.6 siap (tanpa Data Staff)');
   </script>
 </body>
 </html>
